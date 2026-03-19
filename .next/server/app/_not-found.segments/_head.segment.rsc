@@ -1,0 +1,5 @@
+1:"$Sreact.fragment"
+2:I[35417,["/_next/static/chunks/26ca110782d86623.js","/_next/static/chunks/81f0f13d25d49d65.js"],"ViewportBoundary"]
+3:I[35417,["/_next/static/chunks/26ca110782d86623.js","/_next/static/chunks/81f0f13d25d49d65.js"],"MetadataBoundary"]
+4:"$Sreact.suspense"
+0:{"buildId":"ygGpWH3bhRUkxhZUuR3Ru","rsc":["$","$1","h",{"children":[["$","meta",null,{"name":"robots","content":"noindex"}],["$","$L2",null,{"children":[["$","meta","0",{"charSet":"utf-8"}],["$","meta","1",{"name":"viewport","content":"width=device-width, initial-scale=1"}],["$","meta","2",{"name":"theme-color","content":"#0f1419"}]]}],["$","div",null,{"hidden":true,"children":["$","$L3",null,{"children":["$","$4",null,{"name":"Next.Metadata","children":[["$","title","0",{"children":"Abogados del Ecuador - Directorio de Profesionales del Derecho"}],["$","meta","1",{"name":"description","content":"Directorio informativo de profesionales del derecho en Ecuador. Un espacio de encuentro entre personas que buscan asesoria legal y abogados."}]]}]}]}],null]}],"loading":null,"isPartial":false}

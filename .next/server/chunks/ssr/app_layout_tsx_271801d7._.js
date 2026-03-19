@@ -1,0 +1,3 @@
+module.exports=[33290,a=>{"use strict";var b=a.i(81332);function c({children:a}){return(0,b.jsx)("html",{lang:"es",children:(0,b.jsx)("body",{className:"min-h-screen bg-[#0f1419] font-sans antialiased",children:a})})}a.s(["default",()=>c,"metadata",0,{title:"Abogados del Ecuador - Directorio de Profesionales del Derecho",description:"Directorio informativo de profesionales del derecho en Ecuador. Un espacio de encuentro entre personas que buscan asesoria legal y abogados."},"viewport",0,{themeColor:"#0f1419",width:"device-width",initialScale:1}])}];
+
+//# sourceMappingURL=app_layout_tsx_271801d7._.js.map
