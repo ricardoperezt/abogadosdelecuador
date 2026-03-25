@@ -13,9 +13,10 @@ const footerLinks = {
     { label: "Sobre Nosotros", href: "#sobre-nosotros" },
   ],
   especialidades: [
+    { label: "Societario", href: "#especialidades" },
     { label: "Administrativo", href: "#especialidades" },
     { label: "Laboral", href: "#especialidades" },
-    { label: "Nines", href: "#especialidades" },
+    { label: "Ninez", href: "#especialidades" },
     { label: "Penal", href: "#especialidades" },
     { label: "Economico", href: "#especialidades" },
   ],

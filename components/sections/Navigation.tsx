@@ -19,6 +19,10 @@ const menuItems = [
     hasSubmenu: true,
     submenus: [
       {
+        label: "Societario",
+        items: ["Constitucion de Empresas", "Fusiones y Adquisiciones", "Gobierno Corporativo", "Reestructuracion Empresarial"],
+      },
+      {
         label: "Administrativo",
         items: ["Public Law", "Contratacion Publica", "Concesiones", "Derecho Regulatorio"],
       },
@@ -27,7 +31,7 @@ const menuItems = [
         items: ["Relaciones Laborales", "Seguridad Social", "Despidos", "Beneficios Sociales"],
       },
       {
-        label: "Nines",
+        label: "Ninez",
         items: ["Custodia de Menores", "Pension Alimenticia", "Adopciones", "Proteccion Integral"],
       },
       {
