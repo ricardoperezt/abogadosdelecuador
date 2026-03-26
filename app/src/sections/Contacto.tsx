@@ -1,10 +1,5 @@
-import { useState } from 'react'
-import { Mail, Clock, Send, CheckCircle, Info, UserPlus } from 'lucide-react'
 import { Card, CardContent } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Textarea } from '@/components/ui/textarea'
-import { Label } from '@/components/ui/label'
+import { CheckCircle, Clock, Info, Mail, Send, UserPlus } from 'lucide-react'
 import {
   Select,
   SelectContent,
@@ -19,10 +14,16 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip'
 
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Textarea } from '@/components/ui/textarea'
+import { useState } from 'react'
+
 const especialidades = [
   'Administrativo',
   'Laboral',
-  'Niñes',
+  'Niñez',
   'Penal',
   'Económico',
 ]

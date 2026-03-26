@@ -1,5 +1,6 @@
-import { useState, useEffect, useRef } from 'react'
-import { Menu, X, ChevronDown, ChevronRight } from 'lucide-react'
+import { ChevronDown, ChevronRight, Menu, X } from 'lucide-react'
+import { useEffect, useRef, useState } from 'react'
+
 import { Button } from '@/components/ui/button'
 
 interface NavigationProps {
@@ -24,7 +25,7 @@ const menuItems = [
         items: ['Relaciones Laborales', 'Seguridad Social', 'Despidos', 'Beneficios Sociales']
       },
       {
-        label: 'Niñes',
+        label: 'Niñez',
         items: ['Custodia de Menores', 'Pensión Alimenticia', 'Adopciones', 'Protección Integral']
       },
       {
