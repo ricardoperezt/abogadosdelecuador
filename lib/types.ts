@@ -1,5 +1,5 @@
 export interface Abogado {
-  id: number
+  id: string // UUID
   nombre: string
   edad: number
   grado: string

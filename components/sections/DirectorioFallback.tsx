@@ -1,5 +1,7 @@
 'use client'
 
+/// <reference path="../../types/react.d.ts" />
+
 import { AlertCircle } from 'lucide-react'
 
 export default function DirectorioFallback() {

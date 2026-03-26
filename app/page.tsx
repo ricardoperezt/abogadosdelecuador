@@ -1,11 +1,13 @@
 "use client"
 
+/// <reference path="../types/react.d.ts" />
+
 import { useState, useRef, useCallback, useEffect } from "react"
 import Navigation from "@/components/sections/Navigation"
 import Hero from "@/components/sections/Hero"
 import Manifiesto from "@/components/sections/Manifiesto"
 import Especialidades, { type EspecialidadesRef } from "@/components/sections/Especialidades"
-import Directorio from "@/components/sections/Directorio"
+import DirectorioSupabase from "@/components/sections/DirectorioSupabase"
 import Estudios from "@/components/sections/Estudios"
 import SobreNosotros from "@/components/sections/SobreNosotros"
 import Contacto from "@/components/sections/Contacto"
@@ -16,7 +18,7 @@ export default function Home() {
   const [subcategoriaInicial, setSubcategoriaInicial] = useState<{
     especialidad: string
     subcategoria: string
-  } | null>(null)
+  } | undefined>(undefined)
 
   const especialidadesRef = useRef<EspecialidadesRef>(null)
 
@@ -101,7 +103,7 @@ export default function Home() {
       </div>
 
       <div ref={setSectionRef("directorio")}>
-        <Directorio />
+        <DirectorioSupabase />
       </div>
 
       <div ref={setSectionRef("estudios")}>

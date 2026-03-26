@@ -1,4 +1,17 @@
-import { BookOpen, Building2, Calendar, ChevronRight, GraduationCap, Mail, MapPin, Phone, Search } from 'lucide-react'
+/// <reference path="./types/react.d.ts" />
+
+import {
+  AlertCircle,
+  BookOpen,
+  Building2,
+  Calendar,
+  ChevronRight,
+  GraduationCap,
+  Mail,
+  MapPin,
+  Phone,
+  Search
+} from 'lucide-react'
 import { Card, CardContent } from '@/components/ui/card'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { useMemo, useRef, useState } from 'react'

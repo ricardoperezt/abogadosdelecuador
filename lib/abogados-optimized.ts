@@ -37,6 +37,7 @@ export async function getAbogadosConDetalles(): Promise<AbogadoConDetalles[]> {
         )
       `)
       .order('nombre')
+      .limit(50) // Limitar para reducir carga
 
     if (abogadosError) throw abogadosError
 

@@ -28,6 +28,19 @@ const nextConfig = {
   devIndicators: {
     buildActivity: false,
   },
+  // Configuración de webpack si se necesita
+  webpack: (config, { dev, isServer }) => {
+    if (dev) {
+      config.cache = {
+        type: 'filesystem',
+        buildDependencies: {
+          config: [__filename],
+        },
+        maxAge: 86400000, // 24 horas
+      };
+    }
+    return config;
+  },
 }
 
 export default nextConfig

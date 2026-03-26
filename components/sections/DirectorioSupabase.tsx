@@ -1,17 +1,19 @@
 "use client"
 
+/// <reference path="../../types/react.d.ts" />
+
 import { AbogadoConDetalles, Especialidad } from "@/lib/types"
 import { BookOpen, Building2, Calendar, ChevronRight, GraduationCap, Mail, MapPin, Phone, Search } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
-import { getAbogadosConDetalles, getEspecialidades } from "@/lib/abogados-optimized"
+import { getAbogadosConDetalles, getEspecialidades } from "@/lib/abogados-hybrid"
 import { useEffect, useMemo, useRef, useState } from "react"
 
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 
-function AbogadoCard({ abogado }: { abogado: AbogadoConDetalles }) {
+function AbogadoCard({ abogado }: { abogado: AbogadoConDetalles; key?: string | number }) {
   return (
     <Card className="bg-[#1a1f2e] border-[#c9a227]/20 hover:border-[#c9a227]/50 transition-all duration-300">
       <CardContent className="p-5">
@@ -86,16 +88,19 @@ export default function DirectorioSupabase() {
 
   useEffect(() => {
     const loadData = async () => {
+      console.log("🚀 DirectorioSupabase: Iniciando carga de datos...")
       try {
         const [abogadosData, especialidadesData] = await Promise.all([
           getAbogadosConDetalles(),
           getEspecialidades()
         ])
+        console.log("📊 DirectorioSupabase: Datos recibidos - abogados:", abogadosData.length, "especialidades:", especialidadesData.length)
         setAbogados(abogadosData)
         setEspecialidades(especialidadesData)
       } catch (error) {
-        console.error("Error cargando datos:", error)
+        console.error("❌ DirectorioSupabase: Error cargando datos:", error)
       } finally {
+        console.log("✅ DirectorioSupabase: Carga finalizada, setLoading(false)")
         setLoading(false)
       }
     }
@@ -107,7 +112,7 @@ export default function DirectorioSupabase() {
   }, [abogados])
 
   const abogadosFiltrados = useMemo(() => {
-    return abogadosOrdenados.filter((abogado) => {
+    const filtrados = abogadosOrdenados.filter((abogado) => {
       const coincideBusqueda =
         abogado.nombre.toLowerCase().includes(busqueda.toLowerCase()) ||
         abogado.ubicacion.toLowerCase().includes(busqueda.toLowerCase()) ||
@@ -116,6 +121,7 @@ export default function DirectorioSupabase() {
         abogado.especialidades.some(esp => esp.nombre === especialidadSeleccionada)
       return coincideBusqueda && coincideEspecialidad
     })
+    return filtrados
   }, [abogadosOrdenados, busqueda, especialidadSeleccionada])
 
   const handleCategoriaClick = (esp: string) => {
