@@ -15,7 +15,7 @@ const footerLinks = {
   especialidades: [
     { label: "Administrativo", href: "#especialidades" },
     { label: "Laboral", href: "#especialidades" },
-    { label: "Nines", href: "#especialidades" },
+    { label: "Niñez", href: "#especialidades" },
     { label: "Penal", href: "#especialidades" },
     { label: "Economico", href: "#especialidades" },
   ],

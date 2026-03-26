@@ -27,7 +27,7 @@ const menuItems = [
         items: ["Relaciones Laborales", "Seguridad Social", "Despidos", "Beneficios Sociales"],
       },
       {
-        label: "Nines",
+        label: "Niñez",
         items: ["Custodia de Menores", "Pension Alimenticia", "Adopciones", "Proteccion Integral"],
       },
       {

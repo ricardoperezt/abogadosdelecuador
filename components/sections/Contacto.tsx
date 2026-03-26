@@ -10,7 +10,7 @@ import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 
-const especialidades = ["Administrativo", "Laboral", "Nines", "Penal", "Economico"]
+const especialidades = ["Administrativo", "Laboral", "Niñez", "Penal", "Economico"]
 
 export default function Contacto() {
   const [enviado, setEnviado] = useState(false)

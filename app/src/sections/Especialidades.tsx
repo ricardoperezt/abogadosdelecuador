@@ -115,7 +115,7 @@ const especialidadesData = [
     ]
   },
   {
-    id: 'nines',
+    id: 'niñez',
     nombre: 'Niñes',
     icono: Baby,
     descripcion: 'Derecho de familia, custodia, pensión alimenticia, adopciones y protección integral de niñas, niños y adolescentes.',

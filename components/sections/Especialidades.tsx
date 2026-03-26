@@ -66,8 +66,8 @@ const abogados = [
   { id: 34, nombre: "Paola Gachet", edad: 42, grado: "Abogada de los Juzgados y Tribunales de la Republica", posgrados: ["Especialista en Derecho Administrativo"], especialidades: ["Administrativo", "Economico"], subespecialidades: ["Public Law", "Recursos Administrativos"], firma: "Perez Bustamante & Ponce", ubicacion: "Quito, Pichincha", telefono: "+593 2 256 2680", email: "pgachet@pbpabogados.com" },
   { id: 35, nombre: "Juan Francisco Almeida Granja", edad: 48, grado: "Abogado de los Juzgados y Tribunales de la Republica", posgrados: ["Master en Derecho Laboral"], especialidades: ["Laboral"], subespecialidades: ["Relaciones Laborales", "Seguridad Social"], firma: "Almeida Guzman & Asociados", ubicacion: "Quito, Pichincha", telefono: "+593 2 254 4144", email: "jalmeida@almeidaguzman.com" },
   { id: 36, nombre: "Andrea Lara", edad: 45, grado: "Abogada de los Juzgados y Tribunales de la Republica", posgrados: ["Master en Derecho del Trabajo"], especialidades: ["Laboral"], subespecialidades: ["Despidos", "Beneficios Sociales"], firma: "LEXVALOR Abogados", ubicacion: "Quito, Pichincha", telefono: "+593 2 382 7640", email: "alara@lexvalor.com" },
-  { id: 37, nombre: "Maria Francisca Gallegos-Anda", edad: 43, grado: "Abogada de los Juzgados y Tribunales de la Republica", posgrados: ["Master en Derecho de Familia y Ninez"], especialidades: ["Nines"], subespecialidades: ["Proteccion Integral", "Custodia de Menores"], firma: "Gallegos, Valarezo & Neira", ubicacion: "Quito, Pichincha", telefono: "+593 2 244 3866", email: "mgallegos@gvnabogados.com" },
-  { id: 38, nombre: "Blanca Gomez de la Torre", edad: 48, grado: "Abogada de los Juzgados y Tribunales de la Republica", posgrados: ["Especialista en Derecho de Familia"], especialidades: ["Nines", "Economico"], subespecialidades: ["Adopciones", "Pension Alimenticia"], firma: "Perez Bustamante & Ponce", ubicacion: "Quito, Pichincha", telefono: "+593 2 256 2680", email: "bgomez@pbpabogados.com" },
+  { id: 37, nombre: "Maria Francisca Gallegos-Anda", edad: 43, grado: "Abogada de los Juzgados y Tribunales de la Republica", posgrados: ["Master en Derecho de Familia y Ninez"], especialidades: ["Niñez"], subespecialidades: ["Proteccion Integral", "Custodia de Menores"], firma: "Gallegos, Valarezo & Neira", ubicacion: "Quito, Pichincha", telefono: "+593 2 244 3866", email: "mgallegos@gvnabogados.com" },
+  { id: 38, nombre: "Blanca Gomez de la Torre", edad: 48, grado: "Abogada de los Juzgados y Tribunales de la Republica", posgrados: ["Especialista en Derecho de Familia"], especialidades: ["Niñez", "Economico"], subespecialidades: ["Adopciones", "Pension Alimenticia"], firma: "Perez Bustamante & Ponce", ubicacion: "Quito, Pichincha", telefono: "+593 2 256 2680", email: "bgomez@pbpabogados.com" },
 ]
 
 const especialidadesData = [
@@ -96,8 +96,8 @@ const especialidadesData = [
     ],
   },
   {
-    id: "nines",
-    nombre: "Nines",
+    id: "niñez",
+    nombre: "Niñez",
     icono: Baby,
     descripcion: "Derecho de familia, custodia, pension alimenticia, adopciones y proteccion integral de ninas, ninos y adolescentes.",
     subcategorias: [
