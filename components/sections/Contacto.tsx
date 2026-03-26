@@ -1,37 +1,61 @@
-"use client"
+import { Card, CardContent } from '@/components/ui/card'
+import { CheckCircle, Clock, Info, Mail, Send, UserPlus } from 'lucide-react'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip'
 
-import { useState } from "react"
-import { Mail, Clock, Send, CheckCircle, Info, UserPlus } from "lucide-react"
-import { Card, CardContent } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import { Label } from "@/components/ui/label"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Textarea } from '@/components/ui/textarea'
+import { useState } from 'react'
 
-const especialidades = ["Administrativo", "Laboral", "Niñez", "Penal", "Economico"]
+const especialidades = [
+  'Societario',
+  'Administrativo',
+  'Laboral',
+  'Niñez',
+  'Penal',
+  'Económico',
+]
 
 export default function Contacto() {
   const [enviado, setEnviado] = useState(false)
   const [formData, setFormData] = useState({
-    nombre: "",
-    email: "",
-    telefono: "",
-    especialidad: "",
-    mensaje: "",
+    nombre: '',
+    email: '',
+    telefono: '',
+    especialidad: '',
+    mensaje: '',
   })
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    const subject = `Consulta de ${formData.nombre} - ${formData.especialidad || "General"}`
-    const body = `Nombre: ${formData.nombre}%0D%0AEmail: ${formData.email}%0D%0ATelefono: ${formData.telefono || "No proporcionado"}%0D%0AEspecialidad: ${formData.especialidad || "No especificada"}%0D%0A%0D%0AMensaje:%0D%0A${formData.mensaje}`
+    // Enviar a info@abogadosdelecuador.com
+    const subject = `Consulta de ${formData.nombre} - ${formData.especialidad || 'General'}`
+    const body = `Nombre: ${formData.nombre}%0D%0AEmail: ${formData.email}%0D%0ATeléfono: ${formData.telefono || 'No proporcionado'}%0D%0AEspecialidad: ${formData.especialidad || 'No especificada'}%0D%0A%0D%0AMensaje:%0D%0A${formData.mensaje}`
     window.location.href = `mailto:info@abogadosdelecuador.com?subject=${encodeURIComponent(subject)}&body=${body}`
-
+    
     setEnviado(true)
     setTimeout(() => {
       setEnviado(false)
-      setFormData({ nombre: "", email: "", telefono: "", especialidad: "", mensaje: "" })
+      setFormData({
+        nombre: '',
+        email: '',
+        telefono: '',
+        especialidad: '',
+        mensaje: '',
+      })
     }, 3000)
   }
 
@@ -40,9 +64,11 @@ export default function Contacto() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-16">
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-serif font-bold text-foreground mb-4">Contacto</h2>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-serif font-bold text-white mb-4">
+            Contacto
+          </h2>
           <p className="text-gray-400 text-lg max-w-2xl mx-auto">
-            {"Tienes preguntas sobre nuestro directorio? Escribenos y te responderemos a la brevedad."}
+            ¿Tienes preguntas sobre nuestro directorio? Escríbenos y te responderemos a la brevedad.
           </p>
         </div>
 
@@ -55,58 +81,75 @@ export default function Contacto() {
                   <div className="w-16 h-16 rounded-full bg-[#c9a227]/20 flex items-center justify-center mx-auto mb-4">
                     <CheckCircle className="w-8 h-8 text-[#c9a227]" />
                   </div>
-                  <h3 className="text-foreground text-xl font-semibold mb-2">{"Mensaje Enviado!"}</h3>
-                  <p className="text-gray-400">Te responderemos lo antes posible.</p>
+                  <h3 className="text-white text-xl font-semibold mb-2">¡Mensaje Enviado!</h3>
+                  <p className="text-gray-400">
+                    Te responderemos lo antes posible.
+                  </p>
                 </div>
               ) : (
-                <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+                <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                    <div className="flex flex-col gap-2">
-                      <Label htmlFor="nombre" className="text-gray-300">Nombre completo</Label>
+                    <div className="space-y-2">
+                      <Label htmlFor="nombre" className="text-gray-300">
+                        Nombre completo
+                      </Label>
                       <Input
                         id="nombre"
                         placeholder="Tu nombre"
                         value={formData.nombre}
                         onChange={(e) => setFormData({ ...formData, nombre: e.target.value })}
-                        className="bg-[#0f1419] border-[#c9a227]/30 text-foreground placeholder:text-gray-500 focus:border-[#c9a227]"
+                        className="bg-[#0f1419] border-[#c9a227]/30 text-white placeholder:text-gray-500 focus:border-[#c9a227]"
                         required
                       />
                     </div>
-                    <div className="flex flex-col gap-2">
-                      <Label htmlFor="email" className="text-gray-300">Correo electronico</Label>
+                    <div className="space-y-2">
+                      <Label htmlFor="email" className="text-gray-300">
+                        Correo electrónico
+                      </Label>
                       <Input
                         id="email"
                         type="email"
                         placeholder="tu@email.com"
                         value={formData.email}
                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                        className="bg-[#0f1419] border-[#c9a227]/30 text-foreground placeholder:text-gray-500 focus:border-[#c9a227]"
+                        className="bg-[#0f1419] border-[#c9a227]/30 text-white placeholder:text-gray-500 focus:border-[#c9a227]"
                         required
                       />
                     </div>
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                    <div className="flex flex-col gap-2">
-                      <Label htmlFor="telefono" className="text-gray-300">Telefono</Label>
+                    <div className="space-y-2">
+                      <Label htmlFor="telefono" className="text-gray-300">
+                        Teléfono
+                      </Label>
                       <Input
                         id="telefono"
                         type="tel"
                         placeholder="+593 9XXXXXXXX"
                         value={formData.telefono}
                         onChange={(e) => setFormData({ ...formData, telefono: e.target.value })}
-                        className="bg-[#0f1419] border-[#c9a227]/30 text-foreground placeholder:text-gray-500 focus:border-[#c9a227]"
+                        className="bg-[#0f1419] border-[#c9a227]/30 text-white placeholder:text-gray-500 focus:border-[#c9a227]"
                       />
                     </div>
-                    <div className="flex flex-col gap-2">
-                      <Label htmlFor="especialidad" className="text-gray-300">{"Especialidad de interes"}</Label>
-                      <Select value={formData.especialidad} onValueChange={(value) => setFormData({ ...formData, especialidad: value })}>
-                        <SelectTrigger className="bg-[#0f1419] border-[#c9a227]/30 text-foreground focus:border-[#c9a227]">
+                    <div className="space-y-2">
+                      <Label htmlFor="especialidad" className="text-gray-300">
+                        Especialidad de interés
+                      </Label>
+                      <Select
+                        value={formData.especialidad}
+                        onValueChange={(value) => setFormData({ ...formData, especialidad: value })}
+                      >
+                        <SelectTrigger className="bg-[#0f1419] border-[#c9a227]/30 text-white focus:border-[#c9a227]">
                           <SelectValue placeholder="Selecciona una especialidad" />
                         </SelectTrigger>
                         <SelectContent className="bg-[#1a1f2e] border-[#c9a227]/30">
                           {especialidades.map((esp) => (
-                            <SelectItem key={esp} value={esp} className="text-foreground hover:bg-[#c9a227]/10 focus:bg-[#c9a227]/10">
+                            <SelectItem
+                              key={esp}
+                              value={esp}
+                              className="text-white hover:bg-[#c9a227]/10 focus:bg-[#c9a227]/10"
+                            >
                               {esp}
                             </SelectItem>
                           ))}
@@ -115,14 +158,16 @@ export default function Contacto() {
                     </div>
                   </div>
 
-                  <div className="flex flex-col gap-2">
-                    <Label htmlFor="mensaje" className="text-gray-300">Mensaje</Label>
+                  <div className="space-y-2">
+                    <Label htmlFor="mensaje" className="text-gray-300">
+                      Mensaje
+                    </Label>
                     <Textarea
                       id="mensaje"
                       placeholder="Escribe tu mensaje..."
                       value={formData.mensaje}
                       onChange={(e) => setFormData({ ...formData, mensaje: e.target.value })}
-                      className="bg-[#0f1419] border-[#c9a227]/30 text-foreground placeholder:text-gray-500 focus:border-[#c9a227] min-h-[120px]"
+                      className="bg-[#0f1419] border-[#c9a227]/30 text-white placeholder:text-gray-500 focus:border-[#c9a227] min-h-[120px]"
                       required
                     />
                   </div>
@@ -137,7 +182,8 @@ export default function Contacto() {
                   </Button>
 
                   <p className="text-gray-500 text-xs text-center">
-                    {"Al enviar, aceptas nuestra politica de privacidad. Este formulario es solo para consultas sobre el directorio."}
+                    Al enviar, aceptas nuestra política de privacidad. 
+                    Este formulario es solo para consultas sobre el directorio.
                   </p>
                 </form>
               )}
@@ -145,22 +191,27 @@ export default function Contacto() {
           </Card>
 
           {/* Contact Info */}
-          <div className="flex flex-col gap-8">
+          <div className="space-y-8">
             <div>
-              <h3 className="text-foreground text-2xl font-serif font-semibold mb-6">{"Informacion de Contacto"}</h3>
+              <h3 className="text-white text-2xl font-serif font-semibold mb-6">
+                Información de Contacto
+              </h3>
               <p className="text-gray-400 mb-8">
-                {"Contactanos para consultas sobre el directorio o si deseas formar parte de nuestra red de profesionales."}
+                Contáctanos para consultas sobre el directorio o si deseas formar parte de nuestra red de profesionales.
               </p>
             </div>
 
-            <div className="flex flex-col gap-6">
+            <div className="space-y-6">
               <div className="flex items-start gap-4">
                 <div className="w-12 h-12 rounded-full bg-[#c9a227]/10 flex items-center justify-center flex-shrink-0">
                   <Mail className="w-5 h-5 text-[#c9a227]" />
                 </div>
                 <div>
-                  <h4 className="text-foreground font-semibold mb-1">Correo electronico</h4>
-                  <a href="mailto:info@abogadosdelecuador.com" className="text-[#c9a227] hover:text-[#e8d5a3] transition-colors">
+                  <h4 className="text-white font-semibold mb-1">Correo electrónico</h4>
+                  <a 
+                    href="mailto:info@abogadosdelecuador.com" 
+                    className="text-[#c9a227] hover:text-[#e8d5a3] transition-colors"
+                  >
                     info@abogadosdelecuador.com
                   </a>
                 </div>
@@ -171,31 +222,41 @@ export default function Contacto() {
                   <Clock className="w-5 h-5 text-[#c9a227]" />
                 </div>
                 <div>
-                  <h4 className="text-foreground font-semibold mb-1">{"Horario de atencion"}</h4>
-                  <p className="text-gray-400">Lunes a Viernes: 8:00 - 18:00</p>
+                  <h4 className="text-white font-semibold mb-1">Horario de atención</h4>
+                  <p className="text-gray-400">
+                    Lunes a Viernes: 8:00 - 18:00
+                  </p>
                 </div>
               </div>
             </div>
 
-            {/* Join Directory Button */}
+            {/* Botón para ser parte del directorio */}
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <a href="mailto:directorio@abogadosdelecuador.com?subject=Solicitud para formar parte del directorio" className="block w-full">
+                  <a 
+                    href="mailto:directorio@abogadosdelecuador.com?subject=Solicitud para formar parte del directorio"
+                    className="block w-full"
+                  >
                     <Button
                       variant="outline"
                       size="lg"
                       className="w-full border-[#c9a227]/50 text-[#c9a227] hover:bg-[#c9a227] hover:text-[#0f1419] py-6 px-4 h-auto whitespace-normal text-center"
                     >
                       <UserPlus className="w-5 h-5 mr-2 flex-shrink-0" />
-                      <span className="leading-tight">{"Quiero mas informacion de como ser parte del directorio"}</span>
+                      <span className="leading-tight">Quiero más información de cómo ser parte del directorio</span>
                       <Info className="w-4 h-4 ml-2 opacity-70 flex-shrink-0" />
                     </Button>
                   </a>
                 </TooltipTrigger>
-                <TooltipContent side="bottom" className="bg-[#1a1f2e] border-[#c9a227]/30 text-foreground max-w-xs p-4">
+                <TooltipContent 
+                  side="bottom" 
+                  className="bg-[#1a1f2e] border-[#c9a227]/30 text-white max-w-xs p-4"
+                >
                   <p className="text-sm">
-                    {"Si eres abogado o estudio juridico y deseas aparecer en nuestro directorio, haz clic aqui para solicitar informacion sobre los requisitos y el proceso de inscripcion. Verificamos tu inclusion en el CENECI y Consejo de la Judicatura."}
+                    Si eres abogado o estudio jurídico y deseas aparecer en nuestro directorio, 
+                    haz clic aquí para solicitar información sobre los requisitos y el proceso de inscripción. 
+                    Verificamos tu inclusión en el CENECI y Consejo de la Judicatura.
                   </p>
                 </TooltipContent>
               </Tooltip>
@@ -204,7 +265,8 @@ export default function Contacto() {
             {/* Disclaimer */}
             <div className="bg-[#1a1f2e] border border-[#c9a227]/20 rounded-lg p-6">
               <p className="text-gray-500 text-sm">
-                {"* Este es un directorio informativo. No prestamos servicios legales ni garantizamos los servicios de los profesionales listados."}
+                * Este es un directorio informativo. No prestamos servicios legales 
+                ni garantizamos los servicios de los profesionales listados.
               </p>
             </div>
           </div>

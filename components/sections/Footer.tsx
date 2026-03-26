@@ -1,41 +1,38 @@
-"use client"
-
-import { Facebook, Twitter, Linkedin, Instagram, ArrowUp } from "lucide-react"
-import Image from "next/image"
+import { ArrowUp, Facebook, Instagram, Linkedin, Twitter } from 'lucide-react'
 
 const footerLinks = {
   navegacion: [
-    { label: "Inicio", href: "#inicio" },
-    { label: "Manifiesto", href: "#manifiesto" },
-    { label: "Especialidades", href: "#especialidades" },
-    { label: "Directorio", href: "#directorio" },
-    { label: "Estudios", href: "#estudios" },
-    { label: "Sobre Nosotros", href: "#sobre-nosotros" },
+    { label: 'Inicio', href: '#inicio' },
+    { label: 'Manifiesto', href: '#manifiesto' },
+    { label: 'Especialidades', href: '#especialidades' },
+    { label: 'Directorio', href: '#directorio' },
+    { label: 'Estudios', href: '#estudios' },
+    { label: 'Sobre Nosotros', href: '#sobre-nosotros' },
   ],
   especialidades: [
-    { label: "Administrativo", href: "#especialidades" },
-    { label: "Laboral", href: "#especialidades" },
-    { label: "Niñez", href: "#especialidades" },
-    { label: "Penal", href: "#especialidades" },
-    { label: "Economico", href: "#especialidades" },
+    { label: 'Administrativo', href: '#especialidades' },
+    { label: 'Laboral', href: '#especialidades' },
+    { label: 'Niñez', href: '#especialidades' },
+    { label: 'Penal', href: '#especialidades' },
+    { label: 'Económico', href: '#especialidades' },
   ],
   legal: [
-    { label: "Terminos de Uso", href: "#" },
-    { label: "Politica de Privacidad", href: "#" },
-    { label: "Descargo de Responsabilidad", href: "#" },
+    { label: 'Términos de Uso', href: '#' },
+    { label: 'Política de Privacidad', href: '#' },
+    { label: 'Descargo de Responsabilidad', href: '#' },
   ],
 }
 
 const socialLinks = [
-  { icon: Facebook, href: "#", label: "Facebook" },
-  { icon: Twitter, href: "#", label: "Twitter" },
-  { icon: Linkedin, href: "#", label: "LinkedIn" },
-  { icon: Instagram, href: "#", label: "Instagram" },
+  { icon: Facebook, href: '#', label: 'Facebook' },
+  { icon: Twitter, href: '#', label: 'Twitter' },
+  { icon: Linkedin, href: '#', label: 'LinkedIn' },
+  { icon: Instagram, href: '#', label: 'Instagram' },
 ]
 
 export default function Footer() {
   const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" })
+    window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
   return (
@@ -45,18 +42,26 @@ export default function Footer() {
           {/* Brand */}
           <div className="lg:col-span-2">
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-14 h-14 relative">
-                <Image src="/logo-cicero.png" alt="Abogados del Ecuador" fill className="object-contain" />
+              <div className="w-14 h-14">
+                <img 
+                  src="/logo-cicero.png" 
+                  alt="Abogados del Ecuador" 
+                  className="w-full h-full object-contain"
+                />
               </div>
               <div>
-                <span className="text-[#e8d5a3] font-serif text-xl font-semibold block">Abogados del Ecuador</span>
+                <span className="text-[#e8d5a3] font-serif text-xl font-semibold block">
+                  Abogados del Ecuador
+                </span>
               </div>
             </div>
             <p className="text-gray-400 mb-4 max-w-sm">
-              {"Directorio informativo de profesionales del derecho en Ecuador. Un espacio de encuentro entre abogados y ciudadanos."}
+              Directorio informativo de profesionales del derecho en Ecuador. 
+              Un espacio de encuentro entre abogados y ciudadanos.
             </p>
             <p className="text-gray-500 text-sm max-w-sm">
-              {"* Este directorio es solo informativo. No garantizamos los servicios de los profesionales listados."}
+              * Este directorio es solo informativo. No garantizamos los servicios 
+              de los profesionales listados.
             </p>
             <div className="flex gap-3 mt-6">
               {socialLinks.map((social) => {
@@ -77,11 +82,14 @@ export default function Footer() {
 
           {/* Navigation */}
           <div>
-            <h4 className="text-foreground font-semibold mb-4">{"Navegacion"}</h4>
-            <ul className="flex flex-col gap-3">
+            <h4 className="text-white font-semibold mb-4">Navegación</h4>
+            <ul className="space-y-3">
               {footerLinks.navegacion.map((link) => (
                 <li key={link.label}>
-                  <a href={link.href} className="text-gray-400 hover:text-[#c9a227] transition-colors duration-200">
+                  <a
+                    href={link.href}
+                    className="text-gray-400 hover:text-[#c9a227] transition-colors duration-200"
+                  >
                     {link.label}
                   </a>
                 </li>
@@ -91,11 +99,14 @@ export default function Footer() {
 
           {/* Specialties */}
           <div>
-            <h4 className="text-foreground font-semibold mb-4">Especialidades</h4>
-            <ul className="flex flex-col gap-3">
+            <h4 className="text-white font-semibold mb-4">Especialidades</h4>
+            <ul className="space-y-3">
               {footerLinks.especialidades.map((link) => (
                 <li key={link.label}>
-                  <a href={link.href} className="text-gray-400 hover:text-[#c9a227] transition-colors duration-200">
+                  <a
+                    href={link.href}
+                    className="text-gray-400 hover:text-[#c9a227] transition-colors duration-200"
+                  >
                     {link.label}
                   </a>
                 </li>
@@ -105,11 +116,14 @@ export default function Footer() {
 
           {/* Legal */}
           <div>
-            <h4 className="text-foreground font-semibold mb-4">Legal</h4>
-            <ul className="flex flex-col gap-3">
+            <h4 className="text-white font-semibold mb-4">Legal</h4>
+            <ul className="space-y-3">
               {footerLinks.legal.map((link) => (
                 <li key={link.label}>
-                  <a href={link.href} className="text-gray-400 hover:text-[#c9a227] transition-colors duration-200">
+                  <a
+                    href={link.href}
+                    className="text-gray-400 hover:text-[#c9a227] transition-colors duration-200"
+                  >
                     {link.label}
                   </a>
                 </li>
@@ -121,7 +135,7 @@ export default function Footer() {
         {/* Bottom Bar */}
         <div className="mt-16 pt-8 border-t border-[#c9a227]/10 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-gray-500 text-sm text-center sm:text-left">
-            {"© 2026 Abogados del Ecuador. Directorio informativo."}
+            © {new Date().getFullYear()} Abogados del Ecuador. Directorio informativo.
           </p>
           <button
             onClick={scrollToTop}

@@ -3,6 +3,7 @@
 import * as React from "react"
 import * as RechartsPrimitive from "recharts"
 
+import type { TooltipProps } from "recharts"
 import { cn } from "@/lib/utils"
 
 // Format: { THEME_NAME: CSS_SELECTOR }
@@ -118,14 +119,21 @@ function ChartTooltipContent({
   color,
   nameKey,
   labelKey,
-}: React.ComponentProps<typeof RechartsPrimitive.Tooltip> &
-  React.ComponentProps<"div"> & {
-    hideLabel?: boolean
-    hideIndicator?: boolean
-    indicator?: "line" | "dot" | "dashed"
-    nameKey?: string
-    labelKey?: string
-  }) {
+}: {
+  active?: boolean
+  payload?: any[]
+  label?: string
+  className?: string
+  indicator?: "line" | "dot" | "dashed"
+  hideLabel?: boolean
+  hideIndicator?: boolean
+  labelFormatter?: (value: string, payload?: any[]) => React.ReactNode
+  labelClassName?: string
+  formatter?: (value: any, name: string, item: any) => React.ReactNode
+  color?: string
+  nameKey?: string
+  labelKey?: string
+}) {
   const { config } = useChart()
 
   const tooltipLabel = React.useMemo(() => {
@@ -144,7 +152,7 @@ function ChartTooltipContent({
     if (labelFormatter) {
       return (
         <div className={cn("font-medium", labelClassName)}>
-          {labelFormatter(value, payload)}
+          {labelFormatter(label || "", payload)}
         </div>
       )
     }
@@ -195,7 +203,7 @@ function ChartTooltipContent({
                 )}
               >
                 {formatter && item?.value !== undefined && item.name ? (
-                  formatter(item.value, item.name, item, index, item.payload)
+                  formatter?. (item.value, item.name, item)
                 ) : (
                   <>
                     {itemConfig?.icon ? (
@@ -258,10 +266,11 @@ function ChartLegendContent({
   payload,
   verticalAlign = "bottom",
   nameKey,
-}: React.ComponentProps<"div"> &
-  Pick<RechartsPrimitive.LegendProps, "payload" | "verticalAlign"> & {
+}: React.ComponentProps<"div"> & {
     hideIcon?: boolean
     nameKey?: string
+    payload?: any[]
+    verticalAlign?: "top" | "bottom" | "middle"
   }) {
   const { config } = useChart()
 
@@ -277,9 +286,9 @@ function ChartLegendContent({
         className
       )}
     >
-      {payload
-        .filter((item) => item.type !== "none")
-        .map((item) => {
+      {(payload || [])
+        .filter((item: any) => item.type !== "none")
+        .map((item: any) => {
           const key = `${nameKey || item.dataKey || "value"}`
           const itemConfig = getPayloadConfigFromPayload(config, item, key)
 
