@@ -7,7 +7,6 @@ import { usePathname, useRouter } from 'next/navigation'
 
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { validateAdminUser } from '@/lib/admin-auth'
 
 export default function AdminPage() {
   const [username, setUsername] = useState('')
@@ -39,11 +38,19 @@ export default function AdminPage() {
     console.log("🔍 Login attempt:", { username, password: "***" })
 
     try {
-      // Validar usuario contra variables de entorno
-      const isValid = validateAdminUser(username, password)
-      console.log("🔍 Validation result:", isValid)
+      // Validar usuario via API route (server-side)
+      const response = await fetch('/api/admin/auth', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, password }),
+      })
       
-      if (isValid) {
+      const data = await response.json()
+      console.log("🔍 API response:", data)
+      
+      if (data.success) {
         // Guardar sesión en localStorage
         localStorage.setItem('adminSession', JSON.stringify({ username, timestamp: Date.now() }))
         console.log("✅ Session saved, redirecting to dashboard")
@@ -51,7 +58,7 @@ export default function AdminPage() {
         router.push('/admin/dashboard')
       } else {
         console.log("❌ Invalid credentials")
-        setError('Credenciales incorrectas')
+        setError(data.error || 'Credenciales incorrectas')
       }
     } catch (error) {
       console.error("❌ Login error:", error)
