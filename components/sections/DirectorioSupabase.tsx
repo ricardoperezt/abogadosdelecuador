@@ -148,16 +148,6 @@ export default function DirectorioSupabase() {
     setShowMoreDialog(true)
   }
 
-  if (loading) {
-    return (
-      <div className="py-24 bg-[#0f1419]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <p className="text-gray-400">Cargando directorio...</p>
-        </div>
-      </div>
-    )
-  }
-
   return (
     <div className="py-24 bg-[#0f1419]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -213,43 +203,84 @@ export default function DirectorioSupabase() {
           </div>
         </div>
 
-        <div ref={resultadosRef} className="mb-8 text-center">
-          <p className="text-gray-400">
-            {"Mostrando "}
-            <span className="text-[#c9a227] font-semibold">{abogadosFiltrados.length}</span>
-            {" profesional"}{abogadosFiltrados.length !== 1 ? "es" : ""}
-            {especialidadSeleccionada !== "Todas" && (
-              <span>{" en "}<span className="text-[#c9a227]">{especialidadSeleccionada}</span></span>
+        {/* Loading State - Show skeleton cards */}
+        {loading ? (
+          <div className="mb-8 text-center">
+            <p className="text-gray-400 mb-8">
+              {"Mostrando "}
+              <span className="text-[#c9a227] font-semibold">...</span>
+              {" profesionales"}
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+              {[...Array(6)].map((_, index) => (
+                <div key={index} className="bg-[#1a1f2e] border-[#c9a227]/20 rounded-xl p-5 animate-pulse">
+                  <div className="mb-4">
+                    <div className="h-6 bg-[#c9a227]/20 rounded mb-2 w-3/4"></div>
+                    <div className="h-3 bg-gray-600 rounded w-1/2"></div>
+                  </div>
+                  <div className="flex flex-wrap gap-1 mb-3">
+                    <div className="h-5 bg-[#c9a227]/20 rounded w-16"></div>
+                    <div className="h-5 bg-[#c9a227]/20 rounded w-20"></div>
+                  </div>
+                  <div className="flex flex-wrap gap-1 mb-3">
+                    <div className="h-5 bg-[#8b7355]/20 rounded w-24"></div>
+                    <div className="h-5 bg-[#8b7355]/20 rounded w-20"></div>
+                  </div>
+                  <div className="flex flex-col gap-1.5 mb-4">
+                    <div className="h-4 bg-gray-600 rounded w-20"></div>
+                    <div className="h-4 bg-gray-600 rounded w-3/4"></div>
+                    <div className="h-4 bg-gray-600 rounded w-2/3"></div>
+                    <div className="h-4 bg-gray-600 rounded w-24"></div>
+                  </div>
+                  <div className="flex gap-2 pt-3 border-t border-[#c9a227]/10">
+                    <div className="h-8 bg-[#c9a227]/20 rounded flex-1"></div>
+                    <div className="h-8 bg-[#c9a227]/20 rounded flex-1"></div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        ) : (
+          <>
+            <div ref={resultadosRef} className="mb-8 text-center">
+              <p className="text-gray-400">
+                {"Mostrando "}
+                <span className="text-[#c9a227] font-semibold">{abogadosFiltrados.length}</span>
+                {" profesional"}{abogadosFiltrados.length !== 1 ? "es" : ""}
+                {especialidadSeleccionada !== "Todas" && (
+                  <span>{" en "}<span className="text-[#c9a227]">{especialidadSeleccionada}</span></span>
+                )}
+              </p>
+            </div>
+
+            {primerosSeis.length > 0 && (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                {primerosSeis.map((abogado) => (
+                  <AbogadoCard key={abogado.id} abogado={abogado} />
+                ))}
+              </div>
             )}
-          </p>
-        </div>
 
-        {primerosSeis.length > 0 && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-            {primerosSeis.map((abogado) => (
-              <AbogadoCard key={abogado.id} abogado={abogado} />
-            ))}
-          </div>
-        )}
+            {restoAbogados.length > 0 && (
+              <div className="flex justify-center mb-12">
+                <Button
+                  onClick={handleVerMas}
+                  variant="outline"
+                  size="lg"
+                  className="border-[#c9a227]/50 text-[#c9a227] hover:bg-[#c9a227] hover:text-[#0f1419] hover:border-[#c9a227] px-8 transition-all duration-200"
+                >
+                  {"Ver "}{restoAbogados.length}{" profesionales más"}
+                  <ChevronRight className="w-5 h-5 ml-2" />
+                </Button>
+              </div>
+            )}
 
-        {restoAbogados.length > 0 && (
-          <div className="flex justify-center mb-12">
-            <Button
-              onClick={handleVerMas}
-              variant="outline"
-              size="lg"
-              className="border-[#c9a227]/50 text-[#c9a227] hover:bg-[#c9a227] hover:text-[#0f1419] hover:border-[#c9a227] px-8 transition-all duration-200"
-            >
-              {"Ver "}{restoAbogados.length}{" profesionales más"}
-              <ChevronRight className="w-5 h-5 ml-2" />
-            </Button>
-          </div>
-        )}
-
-        {abogadosFiltrados.length === 0 && (
-          <div className="text-center py-12">
-            <p className="text-gray-400">No se encontraron profesionales con los criterios seleccionados.</p>
-          </div>
+            {abogadosFiltrados.length === 0 && (
+              <div className="text-center py-12">
+                <p className="text-gray-400">No se encontraron profesionales con los criterios seleccionados.</p>
+              </div>
+            )}
+          </>
         )}
 
         <Dialog open={showMoreDialog} onOpenChange={setShowMoreDialog}>

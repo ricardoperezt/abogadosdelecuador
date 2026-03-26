@@ -6,24 +6,23 @@ export async function getAbogadosConDetalles(): Promise<AbogadoConDetalles[]> {
   console.log("📋 TABLA: 'abogados' - Buscando todos los abogados activos")
   
   try {
-    // Primero veamos TODOS los registros para debug
-    console.log("🔍 DEBUG: Buscando TODOS los registros sin filtro activo...")
-    const { data: todosAbogados, error: debugError } = await supabaseServer
-      .from('abogados')
-      .select('*')
-
-    if (debugError) {
-      console.error("❌ Error en debug:", debugError)
-    } else {
-      console.log("🔍 DEBUG: Total registros en tabla:", todosAbogados?.length || 0)
-      console.log("🔍 DEBUG: Registros encontrados:", todosAbogados)
-    }
-
-    // Ahora la consulta con filtro activo
+    // Consulta con relaciones - misma que usa el dashboard
     const { data: abogados, error: abogadosError } = await supabaseServer
       .from('abogados')
-      .select('*')
+      .select(`
+        *,
+        abogados_especialidades (
+          especialidades (id, nombre, color)
+        ),
+        abogados_subespecialidades (
+          subespecialidades (id, nombre)
+        ),
+        abogados_posgrados (
+          posgrados (id, nombre)
+        )
+      `)
       .eq('activo', true)
+      .order('nombre')
 
     if (abogadosError) {
       console.error("❌ Error obteniendo abogados:", abogadosError)
@@ -33,9 +32,18 @@ export async function getAbogadosConDetalles(): Promise<AbogadoConDetalles[]> {
     console.log("📊 Datos recibidos (activos):", abogados?.length || 0, "abogados")
     console.log("🔍 DEBUG: Datos crudos:", abogados)
 
-    // Transformar los datos al formato esperado (sin relaciones por ahora)
+    // Transformar los datos al formato esperado con relaciones
     const result = (abogados || []).map((abogado: any) => {
       console.log("🔍 DEBUG: Procesando abogado:", abogado.nombre, abogado.id)
+      
+      const especialidades = abogado.abogados_especialidades?.map((ae: any) => ae.especialidades).filter(Boolean) || []
+      const subespecialidades = abogado.abogados_subespecialidades?.map((as: any) => as.subespecialidades).filter(Boolean) || []
+      const posgrados = abogado.abogados_posgrados?.map((ap: any) => ap.posgrados).filter(Boolean) || []
+      
+      console.log(`  📋 ${abogado.nombre} - Especialidades:`, especialidades.length)
+      console.log(`  📋 ${abogado.nombre} - Subespecialidades:`, subespecialidades.length)
+      console.log(`  📋 ${abogado.nombre} - Posgrados:`, posgrados.length)
+      
       return {
         id: abogado.id,
         nombre: abogado.nombre,
@@ -45,9 +53,9 @@ export async function getAbogadosConDetalles(): Promise<AbogadoConDetalles[]> {
         ubicacion: abogado.ubicacion,
         telefono: abogado.telefono,
         email: abogado.email,
-        especialidades: [], // Vacío por ahora
-        subespecialidades: [], // Vacío por ahora
-        posgrados: [] // Vacío por ahora
+        especialidades,
+        subespecialidades,
+        posgrados
       }
     })
 
