@@ -71,7 +71,7 @@ export default function AdminPage() {
 
   return (
     <div className="min-h-screen bg-[#0f1419] flex items-center justify-center p-4">
-      <Card className="w-full max-w-md bg-[#1a1f2e] border-[#c9a227]/20">
+      <Card className="w-full max-w-md bg-[#1a1f2e] border-[#c9a227]/20 py-6">
         <CardHeader>
           <CardTitle className="text-2xl font-bold text-center text-foreground">
             Admin Login
