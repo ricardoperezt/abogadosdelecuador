@@ -1,4 +1,4 @@
-import { Facebook, Twitter, Linkedin, Instagram, ArrowUp } from 'lucide-react'
+import { ArrowUp, Facebook, Instagram, Linkedin, Twitter } from 'lucide-react'
 
 const footerLinks = {
   navegacion: [
@@ -12,7 +12,7 @@ const footerLinks = {
   especialidades: [
     { label: 'Administrativo', href: '#especialidades' },
     { label: 'Laboral', href: '#especialidades' },
-    { label: 'Niñes', href: '#especialidades' },
+    { label: 'Niñez', href: '#especialidades' },
     { label: 'Penal', href: '#especialidades' },
     { label: 'Económico', href: '#especialidades' },
   ],

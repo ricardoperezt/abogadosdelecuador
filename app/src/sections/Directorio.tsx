@@ -1,13 +1,14 @@
-import { useState, useMemo, useRef } from 'react'
-import { MapPin, Phone, Mail, GraduationCap, Calendar, BookOpen, Search, ChevronRight, Building2 } from 'lucide-react'
+import { BookOpen, Building2, Calendar, ChevronRight, GraduationCap, Mail, MapPin, Phone, Search } from 'lucide-react'
 import { Card, CardContent } from '@/components/ui/card'
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
+import { useMemo, useRef, useState } from 'react'
+
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 
 // Especialidades permitidas
-const ESPECIALIDADES = ['Todas', 'Administrativo', 'Laboral', 'Niñes', 'Penal', 'Económico'] as const
+const ESPECIALIDADES = ['Todas', 'Administrativo', 'Laboral', 'Niñez', 'Penal', 'Económico'] as const
 
 // Abogados de Chambers & Partners - Ecuador
 const abogados = [
@@ -491,7 +492,7 @@ const abogados = [
     edad: 43,
     grado: 'Abogada de los Juzgados y Tribunales de la República',
     posgrados: ['Máster en Derecho de Familia y Niñez'],
-    especialidades: ['Niñes'],
+    especialidades: ['Niñez'],
     subespecialidades: ['Protección Integral', 'Custodia de Menores'],
     firma: 'Gallegos, Valarezo & Neira',
     ubicacion: 'Quito, Pichincha',
@@ -504,7 +505,7 @@ const abogados = [
     edad: 48,
     grado: 'Abogada de los Juzgados y Tribunales de la República',
     posgrados: ['Especialista en Derecho de Familia'],
-    especialidades: ['Niñes', 'Económico'],
+    especialidades: ['Niñez', 'Económico'],
     subespecialidades: ['Adopciones', 'Pensión Alimenticia'],
     firma: 'Pérez Bustamante & Ponce',
     ubicacion: 'Quito, Pichincha',

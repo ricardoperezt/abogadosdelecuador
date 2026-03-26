@@ -1,30 +1,31 @@
-import { useState, useMemo, forwardRef, useImperativeHandle, useEffect } from 'react'
-import { 
-  Landmark,
-  Briefcase,
+import {
   Baby,
-  Gavel,
-  TrendingUp,
-  FileText,
-  Building,
-  Scale,
-  Users,
-  Shield,
-  Heart,
-  Banknote,
   Landmark as Bank,
-  Home,
-  Lightbulb,
-  Zap,
-  GraduationCap,
+  Banknote,
   BookOpen,
+  Briefcase,
+  Building,
+  Building2,
+  FileText,
+  Gavel,
+  GraduationCap,
+  Heart,
+  Home,
+  Landmark,
+  Lightbulb,
+  Mail,
   MapPin,
   Phone,
-  Mail,
-  Building2
+  Scale,
+  Shield,
+  TrendingUp,
+  Users,
+  Zap
 } from 'lucide-react'
 import { Card, CardContent } from '@/components/ui/card'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
+import { forwardRef, useEffect, useImperativeHandle, useMemo, useState } from 'react'
+
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 
@@ -84,8 +85,8 @@ const abogados = [
   { id: 36, nombre: 'Andrea Lara', edad: 45, grado: 'Abogada de los Juzgados y Tribunales de la República', posgrados: ['Máster en Derecho del Trabajo'], especialidades: ['Laboral'], subespecialidades: ['Despidos', 'Beneficios Sociales'], firma: 'LEXVALOR Abogados', ubicacion: 'Quito, Pichincha', telefono: '+593 2 382 7640', email: 'alara@lexvalor.com' },
   
   // NIÑES
-  { id: 37, nombre: 'María Francisca Gallegos-Anda', edad: 43, grado: 'Abogada de los Juzgados y Tribunales de la República', posgrados: ['Máster en Derecho de Familia y Niñez'], especialidades: ['Niñes'], subespecialidades: ['Protección Integral', 'Custodia de Menores'], firma: 'Gallegos, Valarezo & Neira', ubicacion: 'Quito, Pichincha', telefono: '+593 2 244 3866', email: 'mgallegos@gvnabogados.com' },
-  { id: 38, nombre: 'Blanca Gómez de la Torre', edad: 48, grado: 'Abogada de los Juzgados y Tribunales de la República', posgrados: ['Especialista en Derecho de Familia'], especialidades: ['Niñes', 'Económico'], subespecialidades: ['Adopciones', 'Pensión Alimenticia'], firma: 'Pérez Bustamante & Ponce', ubicacion: 'Quito, Pichincha', telefono: '+593 2 256 2680', email: 'bgomez@pbpabogados.com' },
+  { id: 37, nombre: 'María Francisca Gallegos-Anda', edad: 43, grado: 'Abogada de los Juzgados y Tribunales de la República', posgrados: ['Máster en Derecho de Familia y Niñez'], especialidades: ['Niñez'], subespecialidades: ['Protección Integral', 'Custodia de Menores'], firma: 'Gallegos, Valarezo & Neira', ubicacion: 'Quito, Pichincha', telefono: '+593 2 244 3866', email: 'mgallegos@gvnabogados.com' },
+  { id: 38, nombre: 'Blanca Gómez de la Torre', edad: 48, grado: 'Abogada de los Juzgados y Tribunales de la República', posgrados: ['Especialista en Derecho de Familia'], especialidades: ['Niñez', 'Económico'], subespecialidades: ['Adopciones', 'Pensión Alimenticia'], firma: 'Pérez Bustamante & Ponce', ubicacion: 'Quito, Pichincha', telefono: '+593 2 256 2680', email: 'bgomez@pbpabogados.com' },
 ]
 
 // Especialidades con subcategorías basadas en Chambers
@@ -116,7 +117,7 @@ const especialidadesData = [
   },
   {
     id: 'niñez',
-    nombre: 'Niñes',
+    nombre: 'Niñez',
     icono: Baby,
     descripcion: 'Derecho de familia, custodia, pensión alimenticia, adopciones y protección integral de niñas, niños y adolescentes.',
     subcategorias: [
