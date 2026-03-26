@@ -1,10 +1,12 @@
 // Autenticación de admin usando variables de entorno
 export function validateAdminUser(username: string, password: string): boolean {
   console.log("🔍 All env vars:", Object.keys(process.env).filter(k => k.includes('ADMIN')))
-  const adminUsers = process.env.NEXT_PUBLIC_ADMIN_USERS
+  
+  // Prioridad: usar ADMIN_USERS (server-side) en producción, NEXT_PUBLIC_ADMIN_USERS (client-side) en desarrollo
+  const adminUsers = process.env.ADMIN_USERS || process.env.NEXT_PUBLIC_ADMIN_USERS
   
   if (!adminUsers) {
-    console.error("❌ NEXT_PUBLIC_ADMIN_USERS environment variable not set")
+    console.error("❌ ADMIN_USERS or NEXT_PUBLIC_ADMIN_USERS environment variable not set")
     return false
   }
   
@@ -24,10 +26,11 @@ export function validateAdminUser(username: string, password: string): boolean {
 }
 
 export function getAdminUsers(): Array<{username: string, password: string}> {
-  const adminUsers = process.env.NEXT_PUBLIC_ADMIN_USERS
+  // Prioridad: usar ADMIN_USERS (server-side) en producción, NEXT_PUBLIC_ADMIN_USERS (client-side) en desarrollo
+  const adminUsers = process.env.ADMIN_USERS || process.env.NEXT_PUBLIC_ADMIN_USERS
   
   if (!adminUsers) {
-    console.error("❌ NEXT_PUBLIC_ADMIN_USERS environment variable not set")
+    console.error("❌ ADMIN_USERS or NEXT_PUBLIC_ADMIN_USERS environment variable not set")
     return []
   }
   

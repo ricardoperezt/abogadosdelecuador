@@ -72,7 +72,7 @@ export default function AdminDashboard() {
 
       {/* Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        <Card className="bg-[#1a1f2e] border-[#c9a227]/20">
+        <Card className="bg-[#1a1f2e] border-[#c9a227]/20 py-6">
           <CardHeader>
             <CardTitle className="text-[#c9a227]">Abogados</CardTitle>
           </CardHeader>
@@ -81,7 +81,7 @@ export default function AdminDashboard() {
           </CardContent>
         </Card>
 
-        <Card className="bg-[#1a1f2e] border-[#c9a227]/20">
+        <Card className="bg-[#1a1f2e] border-[#c9a227]/20 py-6">
           <CardHeader>
             <CardTitle className="text-[#c9a227]">Especialidades</CardTitle>
           </CardHeader>
@@ -90,7 +90,7 @@ export default function AdminDashboard() {
           </CardContent>
         </Card>
 
-        <Card className="bg-[#1a1f2e] border-[#c9a227]/20">
+        <Card className="bg-[#1a1f2e] border-[#c9a227]/20 py-6">
           <CardHeader>
             <CardTitle className="text-[#c9a227]">Posgrados</CardTitle>
           </CardHeader>
@@ -99,7 +99,7 @@ export default function AdminDashboard() {
           </CardContent>
         </Card>
 
-        <Card className="bg-[#1a1f2e] border-[#c9a227]/20">
+        <Card className="bg-[#1a1f2e] border-[#c9a227]/20 py-6">
           <CardHeader>
             <CardTitle className="text-[#c9a227]">Subespecialidades</CardTitle>
           </CardHeader>

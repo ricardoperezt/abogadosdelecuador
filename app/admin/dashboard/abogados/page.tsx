@@ -470,7 +470,7 @@ export default function AbogadosManagement() {
       </div>
 
       {/* Table */}
-      <Card className="bg-[#1a1f2e] border-[#c9a227]/20">
+      <Card className="bg-[#1a1f2e] border-[#c9a227]/20 py-6">
         <CardHeader>
           <CardTitle className="text-[#c9a227]">Lista de Abogados</CardTitle>
         </CardHeader>
