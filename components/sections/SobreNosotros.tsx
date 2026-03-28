@@ -1,5 +1,5 @@
-import { Target, Eye, Heart, Shield, Users, CheckCircle } from 'lucide-react'
 import { Card, CardContent } from '@/components/ui/card'
+import { CheckCircle, Eye, Heart, Shield, Target, Users } from 'lucide-react'
 
 const valores = [
   {
@@ -22,7 +22,7 @@ const valores = [
 const diferenciadores = [
   'Verificación rigurosa de credenciales de todos los abogados',
   'Sistema de calificaciones transparente y confiable',
-  'Verificamos su inclusión en el CENECI y Consejo de la Judicatura',
+  'Verificamos su inclusión en el CENESCYT y Consejo de la Judicatura',
 ]
 
 export default function SobreNosotros() {

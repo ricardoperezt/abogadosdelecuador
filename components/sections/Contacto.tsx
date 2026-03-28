@@ -256,7 +256,7 @@ export default function Contacto() {
                   <p className="text-sm">
                     Si eres abogado o estudio jurídico y deseas aparecer en nuestro directorio, 
                     haz clic aquí para solicitar información sobre los requisitos y el proceso de inscripción. 
-                    Verificamos tu inclusión en el CENECI y Consejo de la Judicatura.
+                    Verificamos tu inclusión en el CENESCYT y Consejo de la Judicatura.
                   </p>
                 </TooltipContent>
               </Tooltip>
