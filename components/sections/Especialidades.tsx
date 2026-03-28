@@ -292,9 +292,16 @@ const Especialidades = forwardRef<EspecialidadesRef, EspecialidadesProps>(
     useImperativeHandle(ref, () => ({
       scrollToSubcategoria,
       abrirModal: (especialidad: string, subcategoria: string) => {
-        setTimeout(() => {
-          scrollToSubcategoria(especialidad, subcategoria)
-        }, 500)
+        // Encontrar la especialidad correspondiente
+        const especialidadEncontrada = especialidades.find(esp => 
+          esp.nombre.toLowerCase() === especialidad.toLowerCase()
+        )
+        
+        if (especialidadEncontrada) {
+          setSelectedEspecialidad(especialidadEncontrada)
+          setSelectedSubcategoria(subcategoria)
+          setShowDialog(true)
+        }
       }
     }))
 
@@ -374,20 +381,20 @@ const Especialidades = forwardRef<EspecialidadesRef, EspecialidadesProps>(
 
           {/* Dialog */}
           <Dialog open={showDialog} onOpenChange={setShowDialog}>
-            <DialogContent className="bg-[#1a1f2e] border-[#c9a227]/30 !w-[48vw] !max-w-none max-h-[85vh] overflow-y-auto p-6 rounded-2xl">
-              <DialogHeader className="mb-6">
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-full bg-[#c9a227]/10 flex items-center justify-center">
+            <DialogContent className="bg-[#1a1f2e] border-[#c9a227]/30 w-[95vw] sm:w-[90vw] md:w-[80vw] lg:w-[70vw] xl:w-[48vw] max-w-none max-h-[85vh] overflow-y-auto p-4 sm:p-6 rounded-2xl">
+              <DialogHeader className="mb-4 sm:mb-6">
+                <div className="flex items-center gap-3 sm:gap-4">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-[#c9a227]/10 flex items-center justify-center">
                     {selectedEspecialidad && (() => {
                       const Icon = iconMap[selectedEspecialidad.nombre] || TrendingUp
-                      return <Icon className="w-6 h-6 text-[#c9a227]" />
+                      return <Icon className="w-5 h-5 sm:w-6 sm:h-6 text-[#c9a227]" />
                     })()}
                   </div>
-                  <div>
-                    <DialogTitle className="font-semibold text-white text-2xl font-serif">
+                  <div className="flex-1">
+                    <DialogTitle className="font-semibold text-white text-xl sm:text-2xl font-serif">
                       {selectedEspecialidad?.nombre}
                     </DialogTitle>
-                    <p className="text-gray-400 text-sm mt-1">
+                    <p className="text-gray-400 text-xs sm:text-sm mt-1">
                       {selectedEspecialidad?.nombre === 'Administrativo' && 'Derecho público, contratación estatal, procesos administrativos y regulación sectorial.'}
                       {selectedEspecialidad?.nombre === 'Laboral' && 'Relaciones de trabajo, seguridad social, despidos, contratos laborales y beneficios sociales.'}
                       {selectedEspecialidad?.nombre === 'Niñez' && 'Derecho de familia, custodia, pensión alimenticia, adopciones y protección integral de niñas, niños y adolescentes.'}
@@ -400,10 +407,10 @@ const Especialidades = forwardRef<EspecialidadesRef, EspecialidadesProps>(
 
               <div className="mt-6">
                 <h4 className="text-[#c9a227] font-semibold mb-4 text-sm uppercase tracking-wider">Subcategorías</h4>
-                <div className="flex flex-wrap gap-3 mb-6">
+                <div className="flex flex-wrap gap-2 sm:gap-3 mb-6">
                   <button
                     onClick={() => handleSubcategoriaClick('Todos')}
-                    className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+                    className={`px-3 py-2 sm:px-4 rounded-lg text-xs sm:text-sm font-medium transition-all duration-200 ${
                       selectedSubcategoria === 'Todos'
                         ? 'bg-[#c9a227] text-[#0f1419]'
                         : 'bg-[#0f1419] text-gray-400 border border-[#c9a227]/30 hover:border-[#c9a227] hover:text-[#c9a227]'
@@ -417,14 +424,14 @@ const Especialidades = forwardRef<EspecialidadesRef, EspecialidadesProps>(
                       <button
                         key={sub.id}
                         onClick={() => handleSubcategoriaClick(sub.nombre)}
-                        className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+                        className={`flex items-center gap-2 px-3 py-2 sm:px-4 rounded-lg text-xs sm:text-sm font-medium transition-all duration-200 ${
                           selectedSubcategoria === sub.nombre
                             ? 'bg-[#c9a227] text-[#0f1419]'
                             : 'bg-[#0f1419] text-gray-400 border border-[#c9a227]/30 hover:border-[#c9a227] hover:text-[#c9a227]'
                         }`}
                       >
-                        <Icon className="w-4 h-4" />
-                        {sub.nombre}
+                        <Icon className="w-3 h-3 sm:w-4 sm:h-4" />
+                        <span className="truncate">{sub.nombre}</span>
                       </button>
                     )
                   })}
@@ -435,18 +442,18 @@ const Especialidades = forwardRef<EspecialidadesRef, EspecialidadesProps>(
                 <h4 className="text-[#c9a227] font-semibold mb-4 text-sm uppercase tracking-wider">
                   Profesionales<span className="text-gray-500 normal-case ml-2">({filteredAbogados.length} encontrados)</span>
                 </h4>
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 max-h-96 overflow-y-auto px-1 scrollbar-hide">
+                <div className="grid grid-cols-1 gap-4 sm:gap-6 max-h-96 overflow-y-auto px-1 scrollbar-hide">
                   {filteredAbogados.length > 0 ? (
                     filteredAbogados.map((abogado) => (
                       <Card key={abogado.id} className="bg-[#0f1419] border border-[#c9a227]/30 hover:border-[#c9a227]/60 transition-all duration-200 py-0 shadow-md">
-                      <CardContent className="p-5">
+                      <CardContent className="p-3 sm:p-5">
                         {/* Header */}
                         <div className="flex justify-between items-start mb-3">
                           <div className="flex-1">
-                            <h5 className="text-white font-semibold text-base mb-1 leading-tight">Abg. {abogado.nombre}</h5>
+                            <h5 className="text-white font-semibold text-sm sm:text-base mb-1 leading-tight">Abg. {abogado.nombre}</h5>
                             <div className="flex items-center gap-1 text-[#c9a227]/70 text-xs">
                               <Building2 className="w-3 h-3" />
-                              <span>{abogado.firma}</span>
+                              <span className="truncate">{abogado.firma}</span>
                             </div>
                           </div>
                         </div>
@@ -515,7 +522,7 @@ const Especialidades = forwardRef<EspecialidadesRef, EspecialidadesProps>(
                     </Card>
                     ))
                 ) : (
-                  <div className="col-span-1 lg:col-span-2 text-center py-8 text-gray-400">
+                  <div className="col-span-1 text-center py-8 text-gray-400">
                     <p>No se encontraron profesionales con los criterios seleccionados.</p>
                   </div>
                 )}

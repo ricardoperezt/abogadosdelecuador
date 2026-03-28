@@ -47,17 +47,14 @@ export default function Home() {
 
   const handleSubcategoriaClick = useCallback(
     (especialidad: string, subcategoria: string) => {
-      setActiveSection("especialidades")
-      scrollToSection("especialidades")
-      setTimeout(() => {
-        if (especialidadesRef.current) {
-          especialidadesRef.current.abrirModal(especialidad, subcategoria)
-        } else {
-          setSubcategoriaInicial({ especialidad, subcategoria })
-        }
-      }, 500)
+      // Abrir el modal directamente sin navegar a la sección
+      if (especialidadesRef.current) {
+        especialidadesRef.current.abrirModal(especialidad, subcategoria)
+      } else {
+        setSubcategoriaInicial({ especialidad, subcategoria })
+      }
     },
-    [scrollToSection]
+    []
   )
 
   // Intersection Observer for active section tracking
