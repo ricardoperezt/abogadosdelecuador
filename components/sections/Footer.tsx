@@ -63,7 +63,8 @@ export default function Footer() {
               * Este directorio es solo informativo. No garantizamos los servicios 
               de los profesionales listados.
             </p>
-            <div className="flex gap-3 mt-6">
+            {/* Redes Sociales - Comentado temporalmente */}
+            {/* <div className="flex gap-3 mt-6">
               {socialLinks.map((social) => {
                 const Icono = social.icon
                 return (
@@ -77,7 +78,7 @@ export default function Footer() {
                   </a>
                 )
               })}
-            </div>
+            </div> */}
           </div>
 
           {/* Navigation */}
