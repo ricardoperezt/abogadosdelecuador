@@ -261,17 +261,19 @@ const Especialidades = forwardRef<EspecialidadesRef, EspecialidadesProps>(
               </div>
             </div>
 
-            <div className="flex gap-2 pt-3 border-t border-[#c9a227]/10">
+            <div className="flex flex-col sm:flex-row gap-2 pt-3 border-t border-[#c9a227]/10">
               <a href={`tel:${abogado.telefono.replace(/\s/g, '')}`} className="flex-1">
                 <Button variant="outline" size="sm" className="w-full border-[#c9a227]/50 text-[#c9a227] hover:bg-[#c9a227]/10 text-xs">
                   <Phone className="w-3 h-3 mr-1" />
-                  Llamar
+                  <span className="hidden sm:inline">Llamar</span>
+                  <span className="sm:hidden">Teléfono</span>
                 </Button>
               </a>
               <a href={`mailto:${abogado.email}`} className="flex-1">
                 <Button size="sm" className="w-full bg-gradient-to-r from-[#c9a227] to-[#8b7355] text-[#0f1419] font-semibold hover:opacity-90 text-xs">
                   <Mail className="w-3 h-3 mr-1" />
-                  Contactar
+                  <span className="hidden sm:inline">Contactar</span>
+                  <span className="sm:hidden">Email</span>
                 </Button>
               </a>
             </div>
@@ -351,7 +353,7 @@ const Especialidades = forwardRef<EspecialidadesRef, EspecialidadesProps>(
 
                 return (
                   <div
-                    key={esp.id}
+                    key={esp.nombre}
                     onClick={() => handleEspecialidadClick(esp)}
                     className="text-card-foreground flex flex-col gap-6 rounded-xl border shadow-sm bg-[#1a1f2e] border-[#c9a227]/20 hover:border-[#c9a227]/50 transition-all duration-300 hover:gold-glow cursor-pointer group"
                   >
@@ -410,7 +412,7 @@ const Especialidades = forwardRef<EspecialidadesRef, EspecialidadesProps>(
                 <div className="flex flex-wrap gap-2 sm:gap-3 mb-6">
                   <button
                     onClick={() => handleSubcategoriaClick('Todos')}
-                    className={`px-3 py-2 sm:px-4 rounded-lg text-xs sm:text-sm font-medium transition-all duration-200 ${
+                    className={`px-2 py-1.5 sm:px-3 sm:py-2 rounded-lg text-xs font-medium transition-all duration-200 ${
                       selectedSubcategoria === 'Todos'
                         ? 'bg-[#c9a227] text-[#0f1419]'
                         : 'bg-[#0f1419] text-gray-400 border border-[#c9a227]/30 hover:border-[#c9a227] hover:text-[#c9a227]'
@@ -422,16 +424,16 @@ const Especialidades = forwardRef<EspecialidadesRef, EspecialidadesProps>(
                     const Icon = subespecialidadIconMap[sub.nombre] || subespecialidadIconMap.default
                     return (
                       <button
-                        key={sub.id}
+                        key={sub.nombre}
                         onClick={() => handleSubcategoriaClick(sub.nombre)}
-                        className={`flex items-center gap-2 px-3 py-2 sm:px-4 rounded-lg text-xs sm:text-sm font-medium transition-all duration-200 ${
+                        className={`flex items-center gap-2 px-2 py-1.5 sm:px-3 sm:py-2 rounded-lg text-xs font-medium transition-all duration-200 ${
                           selectedSubcategoria === sub.nombre
                             ? 'bg-[#c9a227] text-[#0f1419]'
                             : 'bg-[#0f1419] text-gray-400 border border-[#c9a227]/30 hover:border-[#c9a227] hover:text-[#c9a227]'
                         }`}
                       >
-                        <Icon className="w-3 h-3 sm:w-4 sm:h-4" />
-                        <span className="truncate">{sub.nombre}</span>
+                        <Icon className="w-3 h-3 sm:w-3 sm:h-3 flex-shrink-0" />
+                        <span className="truncate max-w-20 sm:max-w-none">{sub.nombre}</span>
                       </button>
                     )
                   })}
@@ -445,7 +447,7 @@ const Especialidades = forwardRef<EspecialidadesRef, EspecialidadesProps>(
                 <div className="grid grid-cols-1 gap-4 sm:gap-6 max-h-96 overflow-y-auto px-1 scrollbar-hide">
                   {filteredAbogados.length > 0 ? (
                     filteredAbogados.map((abogado) => (
-                      <Card key={abogado.id} className="bg-[#0f1419] border border-[#c9a227]/30 hover:border-[#c9a227]/60 transition-all duration-200 py-0 shadow-md">
+                      <Card key={`${abogado.nombre}-${abogado.email}`} className="bg-[#0f1419] border border-[#c9a227]/30 hover:border-[#c9a227]/60 transition-all duration-200 py-0 shadow-md">
                       <CardContent className="p-3 sm:p-5">
                         {/* Header */}
                         <div className="flex justify-between items-start mb-3">
@@ -504,17 +506,19 @@ const Especialidades = forwardRef<EspecialidadesRef, EspecialidadesProps>(
                         </div>
 
                         {/* Actions */}
-                        <div className="flex gap-2 pt-3 border-t border-[#c9a227]/10">
+                        <div className="flex flex-col sm:flex-row gap-2 pt-3 border-t border-[#c9a227]/10">
                           <a href={`tel:${abogado.telefono.replace(/\s/g, '')}`} className="flex-1">
                             <Button variant="outline" size="sm" className="w-full border-[#c9a227]/50 text-[#c9a227] hover:bg-[#c9a227]/10 text-xs h-8">
                               <Phone className="w-3 h-3 mr-1" />
-                              Llamar
+                              <span className="hidden sm:inline">Llamar</span>
+                              <span className="sm:hidden">Teléfono</span>
                             </Button>
                           </a>
                           <a href={`mailto:${abogado.email}`} className="flex-1">
                             <Button size="sm" className="w-full bg-gradient-to-r from-[#c9a227] to-[#8b7355] text-[#0f1419] font-semibold hover:opacity-90 text-xs h-8">
                               <Mail className="w-3 h-3 mr-1" />
-                              Contactar
+                              <span className="hidden sm:inline">Contactar</span>
+                              <span className="sm:hidden">Email</span>
                             </Button>
                           </a>
                         </div>

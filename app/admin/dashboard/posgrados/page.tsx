@@ -24,6 +24,7 @@ export default function PosgradosManagement() {
   const [editingPosgrado, setEditingPosgrado] = useState<Posgrado | null>(null)
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const [formData, setFormData] = useState({ nombre: '' })
+  const [error, setError] = useState<string | null>(null)
   const router = useRouter()
 
   useEffect(() => {
@@ -49,10 +50,12 @@ export default function PosgradosManagement() {
   const resetForm = () => {
     setFormData({ nombre: '' })
     setEditingPosgrado(null)
+    setError(null)
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    setError(null)
     
     try {
       if (editingPosgrado) {
@@ -73,8 +76,15 @@ export default function PosgradosManagement() {
       setIsDialogOpen(false)
       resetForm()
       loadData()
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error saving posgrado:', error)
+      
+      // Manejar error de duplicado específicamente
+      if (error.code === '23505' && error.message.includes('posgrados_nombre_key')) {
+        setError('Este posgrado ya existe. Por favor, ingrese un nombre diferente.')
+      } else {
+        setError('Error al guardar el posgrado. Por favor, inténtelo de nuevo.')
+      }
     }
   }
 
@@ -123,59 +133,72 @@ export default function PosgradosManagement() {
   return (
     <div className="min-h-screen bg-[#0f1419] p-6">
       {/* Header */}
-      <div className="flex justify-between items-center mb-8">
-        <div className="flex items-center gap-4">
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4 mb-8">
+        <div className="flex flex-col gap-4">
           <Button 
             onClick={() => router.push('/admin/dashboard')}
             variant="outline"
-            className="border-[#c9a227]/50 text-[#c9a227] hover:bg-[#c9a227] hover:text-[#0f1419]"
+            className="border-[#c9a227]/50 text-[#c9a227] hover:bg-[#c9a227] hover:text-[#0f1419] w-fit"
           >
             <ArrowLeft className="w-4 h-4 mr-2" />
             Volver
           </Button>
-          <h1 className="text-3xl font-bold text-foreground">Gestión de Posgrados</h1>
+          <h1 className="text-2xl sm:text-3xl font-bold text-foreground">Gestión de Posgrados</h1>
         </div>
         
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogTrigger asChild>
             <Button 
               onClick={resetForm}
-              className="bg-[#c9a227] text-[#0f1419] hover:bg-[#e8d5a3]"
+              className="bg-[#c9a227] text-[#0f1419] hover:bg-[#e8d5a3] w-full sm:w-fit"
             >
               <Plus className="w-4 h-4 mr-2" />
-              Nuevo Posgrado
+              <span className="hidden sm:inline">Nuevo Posgrado</span>
+              <span className="sm:hidden">Nuevo</span>
             </Button>
           </DialogTrigger>
-          <DialogContent className="bg-[#1a1f2e] border-[#c9a227]/20">
+          <DialogContent className="bg-[#1a1f2e] border-[#c9a227]/20 w-[95vw] sm:w-auto max-w-md">
             <DialogHeader>
-              <DialogTitle className="text-[#c9a227]">
+              <DialogTitle className="text-[#c9a227] text-xl sm:text-2xl font-serif">
                 {editingPosgrado ? 'Editar Posgrado' : 'Nuevo Posgrado'}
               </DialogTitle>
             </DialogHeader>
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-6">
               <div>
-                <Label htmlFor="nombre" className="text-foreground">Nombre</Label>
+                <Label htmlFor="nombre" className="text-foreground text-sm font-medium mb-2 block">Nombre</Label>
                 <Input
                   id="nombre"
                   value={formData.nombre}
-                  onChange={(e) => setFormData({ nombre: e.target.value })}
-                  className="bg-[#0f1419] border-[#c9a227]/20"
+                  onChange={(e) => {
+                    setFormData({ nombre: e.target.value })
+                    setError(null) // Limpiar error al escribir
+                  }}
+                  className={`bg-[#0f1419] border-[#c9a227]/20 focus:border-[#c9a227] transition-colors h-12 ${
+                    error ? 'border-red-500 focus:border-red-500' : ''
+                  }`}
+                  placeholder="Ej: Maestría en Derecho Penal"
                   required
                 />
+                {error && (
+                  <p className="text-red-500 text-xs mt-2 flex items-center gap-1">
+                    <span className="w-1 h-1 bg-red-500 rounded-full"></span>
+                    {error}
+                  </p>
+                )}
               </div>
 
-              <div className="flex justify-end space-x-2 pt-4">
+              <div className="flex flex-col sm:flex-row gap-3 pt-4">
                 <Button
                   type="button"
                   variant="outline"
                   onClick={() => setIsDialogOpen(false)}
-                  className="border-[#c9a227]/50 text-[#c9a227] hover:bg-[#c9a227] hover:text-[#0f1419]"
+                  className="border-[#c9a227]/50 text-[#c9a227] hover:bg-[#c9a227] hover:text-[#0f1419] h-12 order-2 sm:order-1"
                 >
                   Cancelar
                 </Button>
                 <Button
                   type="submit"
-                  className="bg-[#c9a227] text-[#0f1419] hover:bg-[#e8d5a3]"
+                  className="bg-[#c9a227] text-[#0f1419] hover:bg-[#e8d5a3] h-12 font-semibold order-1 sm:order-2"
                 >
                   {editingPosgrado ? 'Actualizar' : 'Crear'}
                 </Button>
@@ -195,18 +218,16 @@ export default function PosgradosManagement() {
             <Table>
               <TableHeader>
                 <TableRow className="border-[#c9a227]/20">
-                  <TableHead className="text-foreground">ID</TableHead>
                   <TableHead className="text-foreground">Nombre</TableHead>
-                  <TableHead className="text-foreground">Acciones</TableHead>
+                  <TableHead className="text-foreground text-right">Acciones</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {posgrados.map((posgrado) => (
                   <TableRow key={posgrado.id} className="border-[#c9a227]/20">
-                    <TableCell className="text-foreground">{posgrado.id}</TableCell>
                     <TableCell className="text-foreground font-medium">{posgrado.nombre}</TableCell>
                     <TableCell>
-                      <div className="flex space-x-2">
+                      <div className="flex justify-end space-x-2">
                         <Button
                           onClick={() => handleEdit(posgrado)}
                           variant="outline"

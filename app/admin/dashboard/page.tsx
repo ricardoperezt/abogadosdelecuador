@@ -57,81 +57,81 @@ export default function AdminDashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-[#0f1419] p-6">
+    <div className="min-h-screen bg-[#0f1419] p-4 sm:p-6">
       {/* Header */}
-      <div className="flex justify-between items-center mb-8">
-        <h1 className="text-3xl font-bold text-foreground">Admin Dashboard</h1>
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 sm:mb-8">
+        <h1 className="text-2xl sm:text-3xl font-bold text-foreground">Admin Dashboard</h1>
         <Button 
           onClick={handleLogout}
           variant="outline"
-          className="border-[#c9a227]/50 text-[#c9a227] hover:bg-[#c9a227] hover:text-[#0f1419]"
+          className="border-[#c9a227]/50 text-[#c9a227] hover:bg-[#c9a227] hover:text-[#0f1419] w-full sm:w-auto"
         >
           Cerrar Sesión
         </Button>
       </div>
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        <Card className="bg-[#1a1f2e] border-[#c9a227]/20 py-6">
-          <CardHeader>
-            <CardTitle className="text-[#c9a227]">Abogados</CardTitle>
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-6 sm:mb-8">
+        <Card className="bg-[#1a1f2e] border-[#c9a227]/20 py-4 sm:py-6">
+          <CardHeader className="pb-2 sm:pb-4">
+            <CardTitle className="text-[#c9a227] text-sm sm:text-base">Abogados</CardTitle>
           </CardHeader>
-          <CardContent>
-            <div className="text-3xl font-bold text-foreground">{stats.abogados}</div>
+          <CardContent className="pt-0">
+            <div className="text-2xl sm:text-3xl font-bold text-foreground">{stats.abogados}</div>
           </CardContent>
         </Card>
 
-        <Card className="bg-[#1a1f2e] border-[#c9a227]/20 py-6">
-          <CardHeader>
-            <CardTitle className="text-[#c9a227]">Especialidades</CardTitle>
+        <Card className="bg-[#1a1f2e] border-[#c9a227]/20 py-4 sm:py-6">
+          <CardHeader className="pb-2 sm:pb-4">
+            <CardTitle className="text-[#c9a227] text-sm sm:text-base">Especialidades</CardTitle>
           </CardHeader>
-          <CardContent>
-            <div className="text-3xl font-bold text-foreground">{stats.especialidades}</div>
+          <CardContent className="pt-0">
+            <div className="text-2xl sm:text-3xl font-bold text-foreground">{stats.especialidades}</div>
           </CardContent>
         </Card>
 
-        <Card className="bg-[#1a1f2e] border-[#c9a227]/20 py-6">
-          <CardHeader>
-            <CardTitle className="text-[#c9a227]">Posgrados</CardTitle>
+        <Card className="bg-[#1a1f2e] border-[#c9a227]/20 py-4 sm:py-6">
+          <CardHeader className="pb-2 sm:pb-4">
+            <CardTitle className="text-[#c9a227] text-sm sm:text-base">Posgrados</CardTitle>
           </CardHeader>
-          <CardContent>
-            <div className="text-3xl font-bold text-foreground">{stats.posgrados}</div>
+          <CardContent className="pt-0">
+            <div className="text-2xl sm:text-3xl font-bold text-foreground">{stats.posgrados}</div>
           </CardContent>
         </Card>
 
-        <Card className="bg-[#1a1f2e] border-[#c9a227]/20 py-6">
-          <CardHeader>
-            <CardTitle className="text-[#c9a227]">Subespecialidades</CardTitle>
+        <Card className="bg-[#1a1f2e] border-[#c9a227]/20 py-4 sm:py-6">
+          <CardHeader className="pb-2 sm:pb-4">
+            <CardTitle className="text-[#c9a227] text-sm sm:text-base">Subespecialidades</CardTitle>
           </CardHeader>
-          <CardContent>
-            <div className="text-3xl font-bold text-foreground">{stats.subespecialidades}</div>
+          <CardContent className="pt-0">
+            <div className="text-2xl sm:text-3xl font-bold text-foreground">{stats.subespecialidades}</div>
           </CardContent>
         </Card>
       </div>
 
       {/* Quick Actions */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
         <Button 
           onClick={() => router.push('/admin/dashboard/abogados')}
-          className="bg-[#c9a227] text-[#0f1419] hover:bg-[#e8d5a3]"
+          className="bg-[#c9a227] text-[#0f1419] hover:bg-[#e8d5a3] text-sm sm:text-base h-12 sm:h-auto"
         >
           Gestionar Abogados
         </Button>
         <Button 
           onClick={() => router.push('/admin/dashboard/especialidades')}
-          className="bg-[#c9a227] text-[#0f1419] hover:bg-[#e8d5a3]"
+          className="bg-[#c9a227] text-[#0f1419] hover:bg-[#e8d5a3] text-sm sm:text-base h-12 sm:h-auto"
         >
           Gestionar Especialidades
         </Button>
         <Button 
           onClick={() => router.push('/admin/dashboard/posgrados')}
-          className="bg-[#c9a227] text-[#0f1419] hover:bg-[#e8d5a3]"
+          className="bg-[#c9a227] text-[#0f1419] hover:bg-[#e8d5a3] text-sm sm:text-base h-12 sm:h-auto"
         >
           Gestionar Posgrados
         </Button>
         <Button 
           onClick={() => router.push('/admin/dashboard/subespecialidades')}
-          className="bg-[#c9a227] text-[#0f1419] hover:bg-[#e8d5a3]"
+          className="bg-[#c9a227] text-[#0f1419] hover:bg-[#e8d5a3] text-sm sm:text-base h-12 sm:h-auto"
         >
           Gestionar Subespecialidades
         </Button>

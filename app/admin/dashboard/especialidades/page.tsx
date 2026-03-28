@@ -121,61 +121,62 @@ export default function EspecialidadesManagement() {
   }
 
   return (
-    <div className="min-h-screen bg-[#0f1419] p-6">
+    <div className="min-h-screen bg-[#0f1419] p-4 sm:p-6">
       {/* Header */}
-      <div className="flex justify-between items-center mb-8">
-        <div className="flex items-center gap-4">
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4 mb-8">
+        <div className="flex flex-col gap-4">
           <Button 
             onClick={() => router.push('/admin/dashboard')}
             variant="outline"
-            className="border-[#c9a227]/50 text-[#c9a227] hover:bg-[#c9a227] hover:text-[#0f1419]"
+            className="border-[#c9a227]/50 text-[#c9a227] hover:bg-[#c9a227] hover:text-[#0f1419] w-fit"
           >
             <ArrowLeft className="w-4 h-4 mr-2" />
             Volver
           </Button>
-          <h1 className="text-3xl font-bold text-foreground">Gestión de Especialidades</h1>
+          <h1 className="text-2xl sm:text-3xl font-bold text-foreground">Gestión de Especialidades</h1>
         </div>
         
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogTrigger asChild>
             <Button 
               onClick={resetForm}
-              className="bg-[#c9a227] text-[#0f1419] hover:bg-[#e8d5a3]"
+              className="bg-[#c9a227] text-[#0f1419] hover:bg-[#e8d5a3] w-full sm:w-fit"
             >
               <Plus className="w-4 h-4 mr-2" />
-              Nueva Especialidad
+              <span className="hidden sm:inline">Nueva Especialidad</span>
+              <span className="sm:hidden">Nueva</span>
             </Button>
           </DialogTrigger>
-          <DialogContent className="bg-[#1a1f2e] border-[#c9a227]/20">
+          <DialogContent className="bg-[#1a1f2e] border-[#c9a227]/20 w-[95vw] sm:w-auto max-w-md mx-4">
             <DialogHeader>
-              <DialogTitle className="text-[#c9a227]">
+              <DialogTitle className="text-[#c9a227] text-lg sm:text-xl">
                 {editingEspecialidad ? 'Editar Especialidad' : 'Nueva Especialidad'}
               </DialogTitle>
             </DialogHeader>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <Label htmlFor="nombre" className="text-foreground">Nombre</Label>
+                <Label htmlFor="nombre" className="text-foreground text-sm sm:text-base">Nombre</Label>
                 <Input
                   id="nombre"
                   value={formData.nombre}
                   onChange={(e) => setFormData({ nombre: e.target.value })}
-                  className="bg-[#0f1419] border-[#c9a227]/20"
+                  className="bg-[#0f1419] border-[#c9a227]/20 mt-2 h-12 sm:h-auto"
                   required
                 />
               </div>
 
-              <div className="flex justify-end space-x-2 pt-4">
+              <div className="flex flex-col sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-2 pt-4 gap-2 sm:gap-0">
                 <Button
                   type="button"
                   variant="outline"
                   onClick={() => setIsDialogOpen(false)}
-                  className="border-[#c9a227]/50 text-[#c9a227] hover:bg-[#c9a227] hover:text-[#0f1419]"
+                  className="border-[#c9a227]/50 text-[#c9a227] hover:bg-[#c9a227] hover:text-[#0f1419] w-full sm:w-auto order-2 sm:order-1"
                 >
                   Cancelar
                 </Button>
                 <Button
                   type="submit"
-                  className="bg-[#c9a227] text-[#0f1419] hover:bg-[#e8d5a3]"
+                  className="bg-[#c9a227] text-[#0f1419] hover:bg-[#e8d5a3] w-full sm:w-auto order-1 sm:order-2"
                 >
                   {editingEspecialidad ? 'Actualizar' : 'Crear'}
                 </Button>
@@ -195,7 +196,6 @@ export default function EspecialidadesManagement() {
             <Table>
               <TableHeader>
                 <TableRow className="border-[#c9a227]/20">
-                  <TableHead className="text-foreground">ID</TableHead>
                   <TableHead className="text-foreground">Nombre</TableHead>
                   <TableHead className="text-foreground">Acciones</TableHead>
                 </TableRow>
@@ -203,7 +203,6 @@ export default function EspecialidadesManagement() {
               <TableBody>
                 {especialidades.map((especialidad) => (
                   <TableRow key={especialidad.id} className="border-[#c9a227]/20">
-                    <TableCell className="text-foreground">{especialidad.id}</TableCell>
                     <TableCell className="text-foreground font-medium">{especialidad.nombre}</TableCell>
                     <TableCell>
                       <div className="flex space-x-2">
