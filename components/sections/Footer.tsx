@@ -19,6 +19,11 @@ const footerLinks = {
     { label: 'Penal', href: '#especialidades' },
     { label: 'Económico', href: '#especialidades' },
   ],
+  legal: [
+    { label: 'Términos de Uso', href: '/terminos-de-uso' },
+    { label: 'Política de Privacidad', href: '/politica-de-privacidad' },
+    { label: 'Descargo de Responsabilidad', href: '/descargo-de-responsabilidad' },
+  ],
 }
 
 const socialLinks = [
@@ -125,18 +130,21 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Institutional Information */}
+          {/* Legal */}
           <div>
-            <h4 className="text-white font-semibold mb-4">Directorio de Abogados del Ecuador</h4>
-            <p className="text-gray-400 text-sm leading-relaxed">
-              Un espacio que conecta a personas con profesionales del derecho en Ecuador. 
-              Este directorio tiene un carácter exclusivamente informativo.
-            </p>
-            <p className="text-gray-400 text-sm leading-relaxed mt-3">
-              La inclusión de profesionales no implica recomendación, garantía ni respaldo 
-              alguno sobre sus servicios. Cada abogado ejerce su práctica de manera 
-              independiente y bajo su propia responsabilidad.
-            </p>
+            <h4 className="text-white font-semibold mb-4">Legal</h4>
+            <ul className="space-y-3">
+              {footerLinks.legal.map((link) => (
+                <li key={link.label}>
+                  <a
+                    href={link.href}
+                    className="text-gray-400 hover:text-[#c9a227] transition-colors duration-200"
+                  >
+                    {link.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
 
