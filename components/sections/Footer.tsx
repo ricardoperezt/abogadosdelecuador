@@ -1,23 +1,24 @@
 'use client'
 
+import { usePathname } from 'next/navigation'
 import { ArrowUp, Facebook, Instagram, Linkedin, Twitter } from 'lucide-react'
 
 const footerLinks = {
   navegacion: [
-    { label: 'Inicio', href: '#inicio' },
-    { label: 'Manifiesto', href: '#manifiesto' },
-    { label: 'Especialidades', href: '#especialidades' },
-    { label: 'Directorio', href: '#directorio' },
-    { label: 'Estudios', href: '#estudios' },
-    { label: 'Sobre Nosotros', href: '#sobre-nosotros' },
-    { label: 'Contacto', href: '#contacto' },
+    { label: 'Inicio', anchor: '#inicio' },
+    { label: 'Manifiesto', anchor: '#manifiesto' },
+    { label: 'Especialidades', anchor: '#especialidades' },
+    { label: 'Directorio', anchor: '#directorio' },
+    { label: 'Estudios', anchor: '#estudios' },
+    { label: 'Sobre Nosotros', anchor: '#sobre-nosotros' },
+    { label: 'Contacto', anchor: '#contacto' },
   ],
   especialidades: [
-    { label: 'Administrativo', href: '#especialidades' },
-    { label: 'Laboral', href: '#especialidades' },
-    { label: 'Niñez', href: '#especialidades' },
-    { label: 'Penal', href: '#especialidades' },
-    { label: 'Económico', href: '#especialidades' },
+    { label: 'Administrativo', anchor: '#especialidades' },
+    { label: 'Laboral', anchor: '#especialidades' },
+    { label: 'Niñez', anchor: '#especialidades' },
+    { label: 'Penal', anchor: '#especialidades' },
+    { label: 'Económico', anchor: '#especialidades' },
   ],
   legal: [
     { label: 'Términos de Uso', href: '/terminos-de-uso' },
@@ -34,13 +35,28 @@ const socialLinks = [
 ]
 
 export default function Footer() {
+  const pathname = usePathname()
+  const isHomepage = pathname === '/'
+
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
-  const scrollToSection = (e: React.MouseEvent, sectionId: string) => {
+  const getHrefForNavigation = (anchor: string): string => {
+    if (isHomepage) {
+      return anchor
+    } else {
+      return `/${anchor}`
+    }
+  }
+
+  const scrollToSection = (e: React.MouseEvent, anchor: string) => {
+    if (!isHomepage) {
+      // Si no estamos en homepage, permitir que el navegador haga la navegación normal
+      return
+    }
     e.preventDefault()
-    const element = document.querySelector(sectionId)
+    const element = document.querySelector(anchor)
     if (element) {
       const yOffset = -80
       const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset
@@ -101,8 +117,8 @@ export default function Footer() {
               {footerLinks.navegacion.map((link) => (
                 <li key={link.label}>
                   <a
-                    href={link.href}
-                    onClick={(e) => scrollToSection(e, link.href)}
+                    href={getHrefForNavigation(link.anchor)}
+                    onClick={(e) => scrollToSection(e, link.anchor)}
                     className="text-gray-400 hover:text-[#c9a227] transition-colors duration-200 cursor-pointer"
                   >
                     {link.label}
@@ -119,8 +135,8 @@ export default function Footer() {
               {footerLinks.especialidades.map((link) => (
                 <li key={link.label}>
                   <a
-                    href={link.href}
-                    onClick={(e) => scrollToSection(e, link.href)}
+                    href={getHrefForNavigation(link.anchor)}
+                    onClick={(e) => scrollToSection(e, link.anchor)}
                     className="text-gray-400 hover:text-[#c9a227] transition-colors duration-200 cursor-pointer"
                   >
                     {link.label}
