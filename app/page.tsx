@@ -10,6 +10,7 @@ import Especialidades, { type EspecialidadesRef } from "@/components/sections/Es
 import DirectorioSupabase from "@/components/sections/DirectorioSupabase"
 import Estudios from "@/components/sections/Estudios"
 import SobreNosotros from "@/components/sections/SobreNosotros"
+import PresentadorFundador from "@/components/sections/PresentadorFundador"
 import Contacto from "@/components/sections/Contacto"
 import Footer from "@/components/sections/Footer"
 
@@ -60,7 +61,7 @@ export default function Home() {
   // Intersection Observer for active section tracking
   useEffect(() => {
     const observers: IntersectionObserver[] = []
-    const sections = ["inicio", "manifiesto", "especialidades", "directorio", "estudios", "sobre-nosotros", "contacto"]
+    const sections = ["inicio", "manifiesto", "especialidades", "directorio", "estudios", "sobre-nosotros", "fundador", "contacto"]
 
     sections.forEach((id) => {
       const element = sectionRefs.current[id]
@@ -109,6 +110,10 @@ export default function Home() {
 
       <div id="sobre-nosotros" ref={setSectionRef("sobre-nosotros")}>
         <SobreNosotros />
+      </div>
+
+      <div id="fundador" ref={setSectionRef("fundador")}>
+        <PresentadorFundador />
       </div>
 
       <div id="contacto" ref={setSectionRef("contacto")}>
