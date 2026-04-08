@@ -115,7 +115,13 @@ export default function Home() {
         <Contacto />
       </div>
 
-      <Footer />
+      <Footer 
+        onEspecialidadClick={(especialidad) => {
+          if (especialidadesRef.current) {
+            especialidadesRef.current.abrirModal(especialidad, 'Todos')
+          }
+        }}
+      />
     </main>
   )
 }

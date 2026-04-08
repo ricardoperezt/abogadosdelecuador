@@ -1,4 +1,10 @@
+'use client'
+
 import { ArrowUp, Facebook, Instagram, Linkedin, Twitter } from 'lucide-react'
+
+interface FooterProps {
+  onEspecialidadClick?: (especialidad: string) => void
+}
 
 const footerLinks = {
   navegacion: [
@@ -8,13 +14,14 @@ const footerLinks = {
     { label: 'Directorio', href: '#directorio' },
     { label: 'Estudios', href: '#estudios' },
     { label: 'Sobre Nosotros', href: '#sobre-nosotros' },
+    { label: 'Contacto', href: '#contacto' },
   ],
   especialidades: [
-    { label: 'Administrativo', href: '#especialidades' },
-    { label: 'Laboral', href: '#especialidades' },
-    { label: 'Niñez', href: '#especialidades' },
-    { label: 'Penal', href: '#especialidades' },
-    { label: 'Económico', href: '#especialidades' },
+    { label: 'Administrativo', href: '#especialidades', especialidad: 'Administrativo' },
+    { label: 'Laboral', href: '#especialidades', especialidad: 'Laboral' },
+    { label: 'Niñez', href: '#especialidades', especialidad: 'Niñez' },
+    { label: 'Penal', href: '#especialidades', especialidad: 'Penal' },
+    { label: 'Económico', href: '#especialidades', especialidad: 'Económico' },
   ],
   legal: [
     { label: 'Términos de Uso', href: '#' },
@@ -30,9 +37,37 @@ const socialLinks = [
   { icon: Instagram, href: '#', label: 'Instagram' },
 ]
 
-export default function Footer() {
+export default function Footer({ onEspecialidadClick }: FooterProps) {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
+  const scrollToSection = (sectionId: string) => {
+    const element = document.querySelector(sectionId)
+    if (element) {
+      const yOffset = -80
+      const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset
+      window.scrollTo({ top: y, behavior: 'smooth' })
+    }
+  }
+
+  const handleEspecialidadClick = (e: React.MouseEvent, especialidad: string, href: string) => {
+    e.preventDefault()
+    if (onEspecialidadClick) {
+      // Primero hacer scroll a la sección
+      scrollToSection(href)
+      // Luego abrir el modal después de un pequeño delay
+      setTimeout(() => {
+        onEspecialidadClick(especialidad)
+      }, 500)
+    } else {
+      scrollToSection(href)
+    }
+  }
+
+  const handleNavClick = (e: React.MouseEvent, href: string) => {
+    e.preventDefault()
+    scrollToSection(href)
   }
 
   return (
@@ -89,7 +124,8 @@ export default function Footer() {
                 <li key={link.label}>
                   <a
                     href={link.href}
-                    className="text-gray-400 hover:text-[#c9a227] transition-colors duration-200"
+                    onClick={(e) => handleNavClick(e, link.href)}
+                    className="text-gray-400 hover:text-[#c9a227] transition-colors duration-200 cursor-pointer"
                   >
                     {link.label}
                   </a>
@@ -106,7 +142,8 @@ export default function Footer() {
                 <li key={link.label}>
                   <a
                     href={link.href}
-                    className="text-gray-400 hover:text-[#c9a227] transition-colors duration-200"
+                    onClick={(e) => handleEspecialidadClick(e, link.especialidad, link.href)}
+                    className="text-gray-400 hover:text-[#c9a227] transition-colors duration-200 cursor-pointer"
                   >
                     {link.label}
                   </a>
