@@ -87,41 +87,35 @@ export default function Home() {
     <main className="min-h-screen bg-[#0f1419]">
       <Navigation activeSection={activeSection} onNavigate={handleNavigate} onSubcategoriaClick={handleSubcategoriaClick} />
 
-      <div ref={setSectionRef("inicio")}>
+      <div id="inicio" ref={setSectionRef("inicio")}>
         <Hero onNavigate={handleNavigate} />
       </div>
 
-      <div ref={setSectionRef("manifiesto")}>
+      <div id="manifiesto" ref={setSectionRef("manifiesto")}>
         <Manifiesto />
       </div>
 
-      <div ref={setSectionRef("especialidades")}>
+      <div id="especialidades" ref={setSectionRef("especialidades")}>
         <Especialidades ref={especialidadesRef} subcategoriaInicial={subcategoriaInicial} />
       </div>
 
-      <div ref={setSectionRef("directorio")}>
+      <div id="directorio" ref={setSectionRef("directorio")}>
         <DirectorioSupabase />
       </div>
 
-      <div ref={setSectionRef("estudios")}>
+      <div id="estudios" ref={setSectionRef("estudios")}>
         <Estudios />
       </div>
 
-      <div ref={setSectionRef("sobre-nosotros")}>
+      <div id="sobre-nosotros" ref={setSectionRef("sobre-nosotros")}>
         <SobreNosotros />
       </div>
 
-      <div ref={setSectionRef("contacto")}>
+      <div id="contacto" ref={setSectionRef("contacto")}>
         <Contacto />
       </div>
 
-      <Footer 
-        onEspecialidadClick={(especialidad) => {
-          if (especialidadesRef.current) {
-            especialidadesRef.current.abrirModal(especialidad, 'Todos')
-          }
-        }}
-      />
+      <Footer />
     </main>
   )
 }
