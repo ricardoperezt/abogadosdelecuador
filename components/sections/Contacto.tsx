@@ -1,5 +1,5 @@
 import { Card, CardContent } from '@/components/ui/card'
-import { CheckCircle, Clock, Info, Mail, Send, UserPlus } from 'lucide-react'
+import { CheckCircle, Clock, Info, Loader2, Mail, Send, UserPlus } from 'lucide-react'
 import {
   Select,
   SelectContent,
@@ -29,34 +29,80 @@ const especialidades = [
   'Económico',
 ]
 
+const paises = [
+  { codigo: '+593', nombre: 'Ecuador', bandera: 'EC' },
+  { codigo: '+1', nombre: 'Estados Unidos', bandera: 'US' },
+  { codigo: '+34', nombre: 'España', bandera: 'ES' },
+  { codigo: '+52', nombre: 'Mexico', bandera: 'MX' },
+  { codigo: '+54', nombre: 'Argentina', bandera: 'AR' },
+  { codigo: '+55', nombre: 'Brasil', bandera: 'BR' },
+  { codigo: '+56', nombre: 'Chile', bandera: 'CL' },
+  { codigo: '+57', nombre: 'Colombia', bandera: 'CO' },
+  { codigo: '+58', nombre: 'Venezuela', bandera: 'VE' },
+  { codigo: '+51', nombre: 'Peru', bandera: 'PE' },
+  { codigo: '+591', nombre: 'Bolivia', bandera: 'BO' },
+  { codigo: '+595', nombre: 'Paraguay', bandera: 'PY' },
+  { codigo: '+598', nombre: 'Uruguay', bandera: 'UY' },
+]
+
 export default function Contacto() {
   const [enviado, setEnviado] = useState(false)
+  const [cargando, setCargando] = useState(false)
+  const [error, setError] = useState<string | null>(null)
   const [formData, setFormData] = useState({
     nombre: '',
     email: '',
+    prefijo: '+593',
     telefono: '',
     especialidad: '',
     mensaje: '',
   })
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    // Enviar a info@abogadosdelecuador.com
-    const subject = `Consulta de ${formData.nombre} - ${formData.especialidad || 'General'}`
-    const body = `Nombre: ${formData.nombre}%0D%0AEmail: ${formData.email}%0D%0ATeléfono: ${formData.telefono || 'No proporcionado'}%0D%0AEspecialidad: ${formData.especialidad || 'No especificada'}%0D%0A%0D%0AMensaje:%0D%0A${formData.mensaje}`
-    window.location.href = `mailto:info@abogadosdelecuador.com?subject=${encodeURIComponent(subject)}&body=${body}`
-    
-    setEnviado(true)
-    setTimeout(() => {
-      setEnviado(false)
-      setFormData({
-        nombre: '',
-        email: '',
-        telefono: '',
-        especialidad: '',
-        mensaje: '',
+    setCargando(true)
+    setError(null)
+
+    try {
+      const telefonoCompleto = formData.telefono ? `${formData.prefijo} ${formData.telefono}` : ''
+      
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          nombre: formData.nombre,
+          email: formData.email,
+          telefono: telefonoCompleto,
+          especialidad: formData.especialidad,
+          mensaje: formData.mensaje,
+        }),
       })
-    }, 3000)
+
+      const data = await response.json()
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Error al enviar el mensaje')
+      }
+
+      setEnviado(true)
+      setTimeout(() => {
+        setEnviado(false)
+        setFormData({
+          nombre: '',
+          email: '',
+          prefijo: '+593',
+          telefono: '',
+          especialidad: '',
+          mensaje: '',
+        })
+      }, 3000)
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Error al enviar el mensaje')
+    } finally {
+      setCargando(false)
+    }
   }
 
   return (
@@ -88,6 +134,11 @@ export default function Contacto() {
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-6">
+                  {error && (
+                    <div className="p-3 bg-red-500/10 border border-red-500/30 rounded-lg">
+                      <p className="text-red-400 text-sm text-center">{error}</p>
+                    </div>
+                  )}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                     <div className="space-y-2">
                       <Label htmlFor="nombre" className="text-gray-300">
@@ -120,17 +171,41 @@ export default function Contacto() {
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                     <div className="space-y-2">
-                      <Label htmlFor="telefono" className="text-gray-300">
-                        Teléfono
-                      </Label>
-                      <Input
-                        id="telefono"
-                        type="tel"
-                        placeholder="+593 9XXXXXXXX"
-                        value={formData.telefono}
-                        onChange={(e) => setFormData({ ...formData, telefono: e.target.value })}
-                        className="bg-[#0f1419] border-[#c9a227]/30 text-white placeholder:text-gray-500 focus:border-[#c9a227]"
-                      />
+                      <Label className="text-gray-300">Teléfono</Label>
+                      <div className="flex gap-2">
+                        <Select
+                          value={formData.prefijo}
+                          onValueChange={(value) => setFormData({ ...formData, prefijo: value })}
+                        >
+                          <SelectTrigger className="w-[100px] bg-[#0f1419] border-[#c9a227]/30 text-white focus:border-[#c9a227] shrink-0">
+                            <SelectValue placeholder="Prefijo">
+                              {formData.prefijo}
+                            </SelectValue>
+                          </SelectTrigger>
+                          <SelectContent className="bg-[#1a1f2e] border-[#c9a227]/30 !text-white max-h-[200px]">
+                            {paises.map((pais) => (
+                              <SelectItem
+                                key={pais.codigo}
+                                value={pais.codigo}
+                                className="!text-white hover:!bg-[#c9a227]/20 focus:!bg-[#c9a227]/20 focus:!text-white data-[highlighted]:!bg-[#c9a227]/20 data-[highlighted]:!text-white"
+                              >
+                                <span className="flex items-center gap-2">
+                                  <span className="text-gray-400 text-xs w-6">{pais.bandera}</span>
+                                  <span>{pais.codigo}</span>
+                                </span>
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                        <Input
+                          id="telefono"
+                          type="tel"
+                          placeholder="9XXXXXXXX"
+                          value={formData.telefono}
+                          onChange={(e) => setFormData({ ...formData, telefono: e.target.value })}
+                          className="flex-1 bg-[#0f1419] border-[#c9a227]/30 text-white placeholder:text-gray-500 focus:border-[#c9a227]"
+                        />
+                      </div>
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor="especialidad" className="text-gray-300">
@@ -143,12 +218,12 @@ export default function Contacto() {
                         <SelectTrigger className="bg-[#0f1419] border-[#c9a227]/30 text-white focus:border-[#c9a227]">
                           <SelectValue placeholder="Selecciona una especialidad" />
                         </SelectTrigger>
-                        <SelectContent className="bg-[#1a1f2e] border-[#c9a227]/30">
+                        <SelectContent className="bg-[#1a1f2e] border-[#c9a227]/30 !text-white">
                           {especialidades.map((esp) => (
                             <SelectItem
                               key={esp}
                               value={esp}
-                              className="text-white hover:bg-[#c9a227]/10 focus:bg-[#c9a227]/10"
+                              className="!text-white hover:!bg-[#c9a227]/20 focus:!bg-[#c9a227]/20 focus:!text-white data-[highlighted]:!bg-[#c9a227]/20 data-[highlighted]:!text-white data-[state=checked]:!bg-[#c9a227]/30 data-[state=checked]:!text-white"
                             >
                               {esp}
                             </SelectItem>
@@ -175,10 +250,20 @@ export default function Contacto() {
                   <Button
                     type="submit"
                     size="lg"
-                    className="w-full bg-gradient-to-r from-[#c9a227] to-[#8b7355] text-[#0f1419] font-semibold hover:opacity-90 transition-opacity"
+                    disabled={cargando}
+                    className="w-full bg-gradient-to-r from-[#c9a227] to-[#8b7355] text-[#0f1419] font-semibold hover:opacity-90 transition-opacity disabled:opacity-50"
                   >
-                    <Send className="w-4 h-4 mr-2" />
-                    Enviar Mensaje
+                    {cargando ? (
+                      <>
+                        <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                        Enviando...
+                      </>
+                    ) : (
+                      <>
+                        <Send className="w-4 h-4 mr-2" />
+                        Enviar Mensaje
+                      </>
+                    )}
                   </Button>
 
                   <p className="text-gray-500 text-xs text-center">
