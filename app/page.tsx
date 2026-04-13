@@ -10,7 +10,6 @@ import Especialidades, { type EspecialidadesRef } from "@/components/sections/Es
 import DirectorioSupabase from "@/components/sections/DirectorioSupabase"
 import Estudios from "@/components/sections/Estudios"
 import SobreNosotros from "@/components/sections/SobreNosotros"
-import PresentadorFundador from "@/components/sections/PresentadorFundador"
 import Contacto from "@/components/sections/Contacto"
 import Footer from "@/components/sections/Footer"
 
@@ -61,7 +60,7 @@ export default function Home() {
   // Intersection Observer for active section tracking
   useEffect(() => {
     const observers: IntersectionObserver[] = []
-    const sections = ["inicio", "manifiesto", "especialidades", "directorio", "estudios", "sobre-nosotros", "fundador", "contacto"]
+    const sections = ["inicio", "manifiesto", "especialidades", "directorio", "estudios", "sobre-nosotros", "contacto"]
 
     sections.forEach((id) => {
       const element = sectionRefs.current[id]
@@ -88,35 +87,31 @@ export default function Home() {
     <main className="min-h-screen bg-[#0f1419]">
       <Navigation activeSection={activeSection} onNavigate={handleNavigate} onSubcategoriaClick={handleSubcategoriaClick} />
 
-      <div id="inicio" ref={setSectionRef("inicio")}>
+      <div ref={setSectionRef("inicio")}>
         <Hero onNavigate={handleNavigate} />
       </div>
 
-      <div id="manifiesto" ref={setSectionRef("manifiesto")}>
+      <div ref={setSectionRef("manifiesto")}>
         <Manifiesto />
       </div>
 
-      <div id="especialidades" ref={setSectionRef("especialidades")}>
+      <div ref={setSectionRef("especialidades")}>
         <Especialidades ref={especialidadesRef} subcategoriaInicial={subcategoriaInicial} />
       </div>
 
-      <div id="directorio" ref={setSectionRef("directorio")}>
+      <div ref={setSectionRef("directorio")}>
         <DirectorioSupabase />
       </div>
 
-      <div id="estudios" ref={setSectionRef("estudios")}>
+      <div ref={setSectionRef("estudios")}>
         <Estudios />
       </div>
 
-      <div id="sobre-nosotros" ref={setSectionRef("sobre-nosotros")}>
+      <div ref={setSectionRef("sobre-nosotros")}>
         <SobreNosotros />
       </div>
 
-      <div id="fundador" ref={setSectionRef("fundador")}>
-        <PresentadorFundador />
-      </div>
-
-      <div id="contacto" ref={setSectionRef("contacto")}>
+      <div ref={setSectionRef("contacto")}>
         <Contacto />
       </div>
 
