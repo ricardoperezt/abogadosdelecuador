@@ -27,7 +27,7 @@ export async function POST(request: NextRequest) {
 
     const { data, error } = await resend.emails.send({
       from: 'Abogados del Ecuador <onboarding@resend.dev>',
-      to: ['rickypcyt@gmail.com'],
+      to: ['eperez@estade.org', 'efrainperex@outlook.com', 'rickypcyt@gmail.com'],
       replyTo: email,
       subject: `Nueva consulta: ${nombre} - ${especialidad || 'General'}`,
       html: `
