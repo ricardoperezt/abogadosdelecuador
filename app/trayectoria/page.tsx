@@ -60,7 +60,7 @@ const trayectoriaAcademica = {
 }
 
 const produccionIntelectual = {
-  areas: ['Derecho Administrativo', 'Derecho Ambiental', 'Derecho Procesal'],
+  areas: ['Derecho Administrativo', 'Derecho Ambiental', 'Derecho Procesal', 'Derecho Civil'],
   editoriales: [
     'CEP, Ecuador',
     'Editorial Temis, Bogotá, Colombia',
