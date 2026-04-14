@@ -52,7 +52,9 @@ export default function Navigation({ activeSection, onNavigate, onSubcategoriaCl
   const [activeSubmenuIndex, setActiveSubmenuIndex] = useState<number | null>(null)
   const menuRef = useRef<HTMLDivElement>(null)
   const mobileMenuRef = useRef<HTMLDivElement>(null)
+  const mobileButtonRef = useRef<HTMLButtonElement>(null)
   const submenuTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const ignoreNextClickOutside = useRef(false)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -68,6 +70,14 @@ export default function Navigation({ activeSection, onNavigate, onSubcategoriaCl
       if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
         setOpenSubmenu(null)
         setActiveSubmenuIndex(null)
+      }
+      // Ignorar si el clic fue en el botón de menú móvil
+      if (mobileButtonRef.current && mobileButtonRef.current.contains(event.target as Node)) {
+        return
+      }
+      if (ignoreNextClickOutside.current) {
+        ignoreNextClickOutside.current = false
+        return
       }
       if (mobileMenuRef.current && !mobileMenuRef.current.contains(event.target as Node)) {
         setIsMobileMenuOpen(false)
@@ -279,8 +289,12 @@ export default function Navigation({ activeSection, onNavigate, onSubcategoriaCl
 
           {/* Mobile Menu Button */}
           <button
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="lg:hidden p-2 text-[#c9a227] hover:bg-[#c9a227]/10 rounded-md transition-colors"
+            ref={mobileButtonRef}
+            onClick={() => {
+              ignoreNextClickOutside.current = true
+              setIsMobileMenuOpen(prev => !prev)
+            }}
+            className="lg:hidden p-2 text-[#c9a227] hover:bg-[#c9a227]/10 rounded-md transition-colors z-50 relative"
             aria-label="Toggle menu"
           >
             {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
