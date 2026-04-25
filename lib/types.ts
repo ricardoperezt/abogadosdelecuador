@@ -14,6 +14,22 @@ export interface Especialidad {
   nombre: string
 }
 
+export interface EstudioJuridico {
+  id: number
+  nombre: string
+  descripcion: string
+  ubicacion: string
+  telefono: string
+  email: string
+  web: string
+  abogados: number
+  especialidades: string[]
+  imagen: string
+  logo: string
+  orden?: number
+  activo?: boolean
+}
+
 export interface Subespecialidad {
   id: number
   nombre: string

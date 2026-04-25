@@ -28,7 +28,6 @@ export async function getAbogadosConDetalles(): Promise<AbogadoConDetalles[]> {
       console.error("❌ Error obteniendo abogados:", abogadosError)
       throw abogadosError
     }
-
     console.log("📊 Datos recibidos (activos):", abogados?.length || 0, "abogados")
     console.log("🔍 DEBUG: Datos crudos:", abogados)
 

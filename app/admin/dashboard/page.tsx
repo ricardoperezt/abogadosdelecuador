@@ -12,7 +12,8 @@ export default function AdminDashboard() {
     abogados: 0,
     especialidades: 0,
     posgrados: 0,
-    subespecialidades: 0
+    subespecialidades: 0,
+    estudios: 0
   })
   const [loading, setLoading] = useState(true)
   const router = useRouter()
@@ -23,18 +24,20 @@ export default function AdminDashboard() {
 
   const loadStats = async () => {
     try {
-      const [abogadosCount, especialidadesCount, posgradosCount, subespecialidadesCount] = await Promise.all([
+      const [abogadosCount, especialidadesCount, posgradosCount, subespecialidadesCount, estudiosCount] = await Promise.all([
         supabaseServer.from('abogados').select('*', { count: 'exact', head: true }),
         supabaseServer.from('especialidades').select('*', { count: 'exact', head: true }),
         supabaseServer.from('posgrados').select('*', { count: 'exact', head: true }),
-        supabaseServer.from('subespecialidades').select('*', { count: 'exact', head: true })
+        supabaseServer.from('subespecialidades').select('*', { count: 'exact', head: true }),
+        supabaseServer.from('estudios_juridicos').select('*', { count: 'exact', head: true })
       ])
 
       setStats({
         abogados: abogadosCount.count || 0,
         especialidades: especialidadesCount.count || 0,
         posgrados: posgradosCount.count || 0,
-        subespecialidades: subespecialidadesCount.count || 0
+        subespecialidades: subespecialidadesCount.count || 0,
+        estudios: estudiosCount.count || 0
       })
     } catch (error) {
       console.error('Error loading stats:', error)
@@ -71,7 +74,7 @@ export default function AdminDashboard() {
       </div>
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-6 sm:mb-8">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-6 mb-6 sm:mb-8">
         <Card className="bg-[#1a1f2e] border-[#c9a227]/20 py-4 sm:py-6">
           <CardHeader className="pb-2 sm:pb-4">
             <CardTitle className="text-[#c9a227] text-sm sm:text-base">Abogados</CardTitle>
@@ -107,10 +110,19 @@ export default function AdminDashboard() {
             <div className="text-2xl sm:text-3xl font-bold text-foreground">{stats.subespecialidades}</div>
           </CardContent>
         </Card>
+
+        <Card className="bg-[#1a1f2e] border-[#c9a227]/20 py-4 sm:py-6">
+          <CardHeader className="pb-2 sm:pb-4">
+            <CardTitle className="text-[#c9a227] text-sm sm:text-base">Estudios Jurídicos</CardTitle>
+          </CardHeader>
+          <CardContent className="pt-0">
+            <div className="text-2xl sm:text-3xl font-bold text-foreground">{stats.estudios}</div>
+          </CardContent>
+        </Card>
       </div>
 
       {/* Quick Actions */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 sm:gap-4">
         <Button 
           onClick={() => router.push('/admin/dashboard/abogados')}
           className="bg-[#c9a227] text-[#0f1419] hover:bg-[#e8d5a3] text-sm sm:text-base h-12 sm:h-auto"
@@ -134,6 +146,12 @@ export default function AdminDashboard() {
           className="bg-[#c9a227] text-[#0f1419] hover:bg-[#e8d5a3] text-sm sm:text-base h-12 sm:h-auto"
         >
           Gestionar Subespecialidades
+        </Button>
+        <Button 
+          onClick={() => router.push('/admin/dashboard/estudios')}
+          className="bg-[#c9a227] text-[#0f1419] hover:bg-[#e8d5a3] text-sm sm:text-base h-12 sm:h-auto"
+        >
+          Gestionar Estudios
         </Button>
       </div>
     </div>

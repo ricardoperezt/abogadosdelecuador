@@ -2,6 +2,7 @@ import { ChevronDown, ChevronRight, Menu, X } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 
 import { Button } from '@/components/ui/button'
+import { getEspecialidadesConSubespecialidades, type EspecialidadConSubespecialidades } from '@/lib/especialidades'
 
 interface NavigationProps {
   activeSection: string
@@ -11,33 +12,7 @@ interface NavigationProps {
 
 const menuItems = [
   { id: 'inicio', label: 'Inicio', hasSubmenu: false },
-  { 
-    id: 'especialidades', 
-    label: 'Especialidades', 
-    hasSubmenu: true,
-    submenus: [
-      {
-        label: 'Administrativo',
-        items: ['Public Law', 'Contratación Pública', 'Concesiones', 'Derecho Regulatorio']
-      },
-      {
-        label: 'Laboral',
-        items: ['Relaciones Laborales', 'Seguridad Social', 'Despidos', 'Beneficios Sociales']
-      },
-      {
-        label: 'Niñez',
-        items: ['Custodia de Menores', 'Pensión Alimenticia', 'Adopciones', 'Protección Integral']
-      },
-      {
-        label: 'Penal',
-        items: ['Dispute Resolution', 'Arbitraje Internacional', 'Litigio Comercial', 'Delitos Económicos']
-      },
-      {
-        label: 'Económico',
-        items: ['Banking & Finance', 'Corporate/Commercial', 'Tax', 'Real Estate', 'Intellectual Property', 'Energy & Natural Resources']
-      },
-    ]
-  },
+  { id: 'especialidades', label: 'Especialidades', hasSubmenu: true },
   { id: 'directorio', label: 'Directorio', hasSubmenu: false },
   { id: 'estudios', label: 'Estudios', hasSubmenu: false },
   { id: 'manifiesto', label: 'Manifiesto', hasSubmenu: false },
@@ -50,6 +25,8 @@ export default function Navigation({ activeSection, onNavigate, onSubcategoriaCl
   const [openSubmenu, setOpenSubmenu] = useState<string | null>(null)
   const [openMobileSubmenu, setOpenMobileSubmenu] = useState<string | null>(null)
   const [activeSubmenuIndex, setActiveSubmenuIndex] = useState<number | null>(null)
+  const [especialidadesMenu, setEspecialidadesMenu] = useState<EspecialidadConSubespecialidades[]>([])
+  const [loadingEspecialidades, setLoadingEspecialidades] = useState(true)
   const menuRef = useRef<HTMLDivElement>(null)
   const mobileMenuRef = useRef<HTMLDivElement>(null)
   const mobileButtonRef = useRef<HTMLButtonElement>(null)
@@ -62,6 +39,21 @@ export default function Navigation({ activeSection, onNavigate, onSubcategoriaCl
     }
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
+  useEffect(() => {
+    const loadEspecialidades = async () => {
+      try {
+        const especialidades = await getEspecialidadesConSubespecialidades()
+        setEspecialidadesMenu(especialidades)
+      } catch (error) {
+        console.error('❌ Navigation: error cargando especialidades:', error)
+      } finally {
+        setLoadingEspecialidades(false)
+      }
+    }
+
+    loadEspecialidades()
   }, [])
 
   // Cerrar menú al hacer click fuera
@@ -100,6 +92,17 @@ export default function Navigation({ activeSection, onNavigate, onSubcategoriaCl
     setActiveSubmenuIndex(null)
   }
 
+  const handleSpecialidadesDesktopClick = () => {
+    onNavigate('especialidades')
+    setOpenSubmenu('especialidades')
+    setActiveSubmenuIndex((current) => current ?? (especialidadesMenu.length > 0 ? 0 : null))
+  }
+
+  const handleSpecialidadesMobileClick = () => {
+    onNavigate('especialidades')
+    setOpenMobileSubmenu('especialidades')
+  }
+
   const handleSubmenuItemClick = (especialidadLabel: string, subcategoria: string) => {
     onSubcategoriaClick(especialidadLabel, subcategoria)
     setOpenSubmenu(null)
@@ -136,10 +139,6 @@ export default function Navigation({ activeSection, onNavigate, onSubcategoriaCl
       setOpenSubmenu(null)
       setActiveSubmenuIndex(null)
     }, 200)
-  }
-
-  const toggleMobileSubmenu = (itemId: string) => {
-    setOpenMobileSubmenu(openMobileSubmenu === itemId ? null : itemId)
   }
 
   return (
@@ -183,7 +182,7 @@ export default function Navigation({ activeSection, onNavigate, onSubcategoriaCl
                 {item.hasSubmenu ? (
                   <>
                     <button
-                      onClick={() => handleNavClick(item.id)}
+                      onClick={() => handleSpecialidadesDesktopClick()}
                       className={`flex items-center gap-1 px-3 py-2 text-sm font-medium transition-all duration-200 rounded-md ${
                         activeSection === item.id
                           ? 'text-[#c9a227] bg-[#c9a227]/10'
@@ -195,7 +194,7 @@ export default function Navigation({ activeSection, onNavigate, onSubcategoriaCl
                     </button>
                     
                     {/* Submenu Cascade - Con scroll interno */}
-                    {openSubmenu === item.id && item.submenus && (
+                    {openSubmenu === item.id && (
                       <div 
                         className="absolute top-full left-0 pt-2 z-50"
                         onMouseEnter={() => {
@@ -209,7 +208,15 @@ export default function Navigation({ activeSection, onNavigate, onSubcategoriaCl
                         <div className="flex">
                           {/* Menu principal de especialidades */}
                           <div className="bg-[#1a1f2e] border border-[#c9a227]/30 rounded-lg shadow-xl shadow-black/50 overflow-hidden min-w-[260px] max-h-[70vh] overflow-y-auto">
-                            {item.submenus.map((submenu, idx) => (
+                            {loadingEspecialidades ? (
+                              <div className="px-4 py-3 text-sm text-gray-400">
+                                Cargando especialidades...
+                              </div>
+                            ) : especialidadesMenu.length === 0 ? (
+                              <div className="px-4 py-3 text-sm text-gray-400">
+                                No hay especialidades disponibles.
+                              </div>
+                            ) : especialidadesMenu.map((submenu, idx) => (
                               <div 
                                 key={idx} 
                                 className="relative"
@@ -222,7 +229,7 @@ export default function Navigation({ activeSection, onNavigate, onSubcategoriaCl
                                       : 'text-[#c9a227] hover:bg-[#c9a227]/10'
                                   }`}
                                 >
-                                  <span className="font-semibold">{submenu.label}</span>
+                                  <span className="font-semibold">{submenu.nombre}</span>
                                   <ChevronRight className="w-4 h-4" />
                                 </div>
                               </div>
@@ -230,7 +237,7 @@ export default function Navigation({ activeSection, onNavigate, onSubcategoriaCl
                           </div>
                           
                           {/* Sub-submenu (cascade) - aparece al lado */}
-                          {activeSubmenuIndex !== null && item.submenus[activeSubmenuIndex] && (
+                          {activeSubmenuIndex !== null && especialidadesMenu[activeSubmenuIndex] && (
                             <div 
                               className="ml-2 bg-[#0f1419] border border-[#c9a227]/30 rounded-lg shadow-xl shadow-black/50 overflow-hidden min-w-[240px] max-h-[70vh] overflow-y-auto"
                               onMouseEnter={() => {
@@ -243,18 +250,24 @@ export default function Navigation({ activeSection, onNavigate, onSubcategoriaCl
                             >
                               <div className="px-4 py-3 bg-[#c9a227]/10 border-b border-[#c9a227]/30">
                                 <span className="text-[#c9a227] font-semibold text-sm">
-                                  {item.submenus[activeSubmenuIndex].label}
+                                  {especialidadesMenu[activeSubmenuIndex].nombre}
                                 </span>
                               </div>
-                              {item.submenus[activeSubmenuIndex].items.map((subItem, subIdx) => (
+                              {especialidadesMenu[activeSubmenuIndex].subespecialidades.length > 0 ? (
+                                especialidadesMenu[activeSubmenuIndex].subespecialidades.map((subItem, subIdx) => (
                                 <button
                                   key={subIdx}
-                                  onClick={() => handleSubmenuItemClick(item.submenus[activeSubmenuIndex].label, subItem)}
+                                  onClick={() => handleSubmenuItemClick(especialidadesMenu[activeSubmenuIndex].nombre, subItem.nombre)}
                                   className="block w-full text-left px-4 py-3 text-sm text-gray-300 hover:text-[#c9a227] hover:bg-[#c9a227]/10 transition-colors border-b border-[#c9a227]/5 last:border-b-0"
                                 >
-                                  {subItem}
+                                  {subItem.nombre}
                                 </button>
-                              ))}
+                                ))
+                              ) : (
+                                <div className="px-4 py-3 text-sm text-gray-400">
+                                  No hay subespecialidades disponibles.
+                                </div>
+                              )}
                             </div>
                           )}
                         </div>
@@ -319,7 +332,7 @@ export default function Navigation({ activeSection, onNavigate, onSubcategoriaCl
               {item.hasSubmenu ? (
                 <div className="space-y-2">
                   <button
-                    onClick={() => toggleMobileSubmenu(item.id)}
+                    onClick={() => handleSpecialidadesMobileClick()}
                     className={`flex items-center justify-between w-full text-left px-4 py-3 text-sm font-medium transition-all duration-200 rounded-md ${
                       activeSection === item.id
                         ? 'text-[#c9a227] bg-[#c9a227]/10'
@@ -331,25 +344,31 @@ export default function Navigation({ activeSection, onNavigate, onSubcategoriaCl
                   </button>
                   
                   {/* Mobile Submenu */}
-                  {openMobileSubmenu === item.id && item.submenus && (
+                  {openMobileSubmenu === item.id && (
                     <div className="pl-4 space-y-2 border-l-2 border-[#c9a227]/30 ml-4">
-                      {item.submenus.map((submenu, idx) => (
+                      {loadingEspecialidades ? (
+                        <div className="px-3 py-2 text-sm text-gray-400">Cargando especialidades...</div>
+                      ) : especialidadesMenu.length === 0 ? (
+                        <div className="px-3 py-2 text-sm text-gray-400">No hay especialidades disponibles.</div>
+                      ) : especialidadesMenu.map((submenu, idx) => (
                         <div key={idx} className="space-y-1">
                           <div className="px-3 py-2 text-[#c9a227] font-semibold text-xs uppercase tracking-wider flex items-center gap-2">
                             <ChevronRight className="w-3 h-3" />
-                            {submenu.label}
+                            {submenu.nombre}
                           </div>
                           <div className="pl-4 space-y-1">
-                            {submenu.items.map((subItem, subIdx) => (
+                            {submenu.subespecialidades.length > 0 ? submenu.subespecialidades.map((subItem, subIdx) => (
                               <button
                                 key={subIdx}
-                                onClick={() => handleSubmenuItemClick(submenu.label, subItem)}
+                                onClick={() => handleSubmenuItemClick(submenu.nombre, subItem.nombre)}
                                 className="block w-full text-left px-3 py-2.5 text-sm text-gray-400 hover:text-[#c9a227] hover:bg-[#c9a227]/10 transition-colors rounded-md"
                                 type="button"
                               >
-                                {subItem}
+                                {subItem.nombre}
                               </button>
-                            ))}
+                            )) : (
+                              <div className="px-3 py-2 text-sm text-gray-500">Sin subespecialidades</div>
+                            )}
                           </div>
                         </div>
                       ))}
