@@ -10,11 +10,10 @@ import { useEffect, useState } from 'react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
+import { EstudioJuridico } from '@/lib/types'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
-import { EstudioJuridico } from '@/lib/types'
-import { supabaseServer } from '@/lib/supabase-server'
 import { useRouter } from 'next/navigation'
 
 interface EstudioFormData {
@@ -59,6 +58,7 @@ export default function EstudiosManagement() {
   const [editingEstudio, setEditingEstudio] = useState<EstudioJuridico | null>(null)
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const [formData, setFormData] = useState<EstudioFormData>(initialFormData)
+  const [error, setError] = useState<string | null>(null)
   const router = useRouter()
 
   useEffect(() => {
@@ -67,14 +67,14 @@ export default function EstudiosManagement() {
 
   const loadData = async () => {
     try {
-      const { data, error } = await supabaseServer
-        .from('estudios_juridicos')
-        .select('*')
-        .order('orden', { ascending: true })
-        .order('nombre', { ascending: true })
+      const response = await fetch('/api/admin/estudios')
+      const result = await response.json()
 
-      if (error) throw error
-      setEstudios((data || []) as EstudioJuridico[])
+      if (!response.ok || !result.success) {
+        throw new Error(result.error || 'Error cargando estudios jurídicos')
+      }
+
+      setEstudios((result.data || []) as EstudioJuridico[])
     } catch (error) {
       console.error('Error loading estudios jurídicos:', error)
     } finally {
@@ -85,12 +85,15 @@ export default function EstudiosManagement() {
   const resetForm = () => {
     setFormData(initialFormData)
     setEditingEstudio(null)
+    setError(null)
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    setError(null)
 
     const estudioData = {
+      id: editingEstudio?.id,
       nombre: formData.nombre,
       descripcion: formData.descripcion,
       ubicacion: formData.ubicacion,
@@ -106,26 +109,26 @@ export default function EstudiosManagement() {
     }
 
     try {
-      if (editingEstudio) {
-        const { error } = await supabaseServer
-          .from('estudios_juridicos')
-          .update(estudioData)
-          .eq('id', editingEstudio.id)
+      const response = await fetch('/api/admin/estudios', {
+        method: editingEstudio ? 'PUT' : 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(estudioData)
+      })
 
-        if (error) throw error
-      } else {
-        const { error } = await supabaseServer
-          .from('estudios_juridicos')
-          .insert(estudioData)
+      const result = await response.json()
 
-        if (error) throw error
+      if (!response.ok || !result.success) {
+        throw new Error(result.error || 'Error al guardar el estudio jurídico')
       }
 
       setIsDialogOpen(false)
       resetForm()
       loadData()
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error saving estudio jurídico:', error)
+      setError(error?.message || 'Error al guardar el estudio jurídico. Por favor, inténtelo de nuevo.')
     }
   }
 
@@ -150,12 +153,20 @@ export default function EstudiosManagement() {
 
   const handleDelete = async (id: number) => {
     try {
-      const { error } = await supabaseServer
-        .from('estudios_juridicos')
-        .delete()
-        .eq('id', id)
+      const response = await fetch('/api/admin/estudios', {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ id })
+      })
 
-      if (error) throw error
+      const result = await response.json()
+
+      if (!response.ok || !result.success) {
+        throw new Error(result.error || 'Error al eliminar el estudio jurídico')
+      }
+
       loadData()
     } catch (error) {
       console.error('Error deleting estudio jurídico:', error)
@@ -240,6 +251,12 @@ export default function EstudiosManagement() {
                   placeholder="Descripción breve del estudio jurídico"
                   required
                 />
+                {error && (
+                  <p className="text-red-500 text-xs mt-2 flex items-center gap-1">
+                    <span className="w-1 h-1 bg-red-500 rounded-full"></span>
+                    {error}
+                  </p>
+                )}
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
