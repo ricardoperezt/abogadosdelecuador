@@ -16,7 +16,7 @@ const experienciaSectorPublico = [
 
 const experienciaSectorPrivado = [
   'Tributaria: Nicolás Febres-Cordero Ribadeneira vs. Servicio de Rentas Internas (SRI)',
-  'Marcario y Familia: Kimberly-Clark',
+  'Marcario: Familia - Kimberl Clark',
 ]
 
 const consultoriasInternacionales = [
