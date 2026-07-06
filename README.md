@@ -1,2 +1,2 @@
 # abogadosdelecuador
-Directorio de abogados del Ecuador del Abg. Efrain Perez Camacho
+Directorio de abogados del Ecuador del Abg. Efraín Pérez Camacho
