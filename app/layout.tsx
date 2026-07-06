@@ -4,7 +4,7 @@ import "./globals.css"
 export const metadata: Metadata = {
   title: "Abogados del Ecuador - Directorio de Profesionales del Derecho",
   description:
-    "Directorio informativo de profesionales del derecho en Ecuador. Un espacio de encuentro entre personas que buscan asesoria legal y abogados.",
+    "Directorio informativo de profesionales del derecho en Ecuador. Un espacio de encuentro entre personas que buscan asesoría legal y abogados.",
 }
 
 export const viewport: Viewport = {
