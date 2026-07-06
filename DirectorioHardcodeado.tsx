@@ -537,7 +537,7 @@ function AbogadoCard({ abogado }: { abogado: typeof abogados[0] }) {
       <CardContent className="p-5">
         {/* Header - Nombre y Firma */}
         <div className="mb-4">
-          <h3 className="text-white font-semibold text-lg leading-tight mb-1">Abg. {abogado.nombre}</h3>
+          <h3 className="text-white font-semibold text-lg leading-tight mb-1"> {abogado.nombre}</h3>
           <div className="flex items-center gap-1 text-[#c9a227]/70 text-xs">
             <Building2 className="w-3 h-3" />
             <span>{abogado.firma}</span>
