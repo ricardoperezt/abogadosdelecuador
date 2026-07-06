@@ -65,11 +65,11 @@ const produccionIntelectual = {
     'CEP, Ecuador',
     'Editorial Temis, Bogotá, Colombia',
     'Editorial Aranzadi, España',
-    'Editorial Tirant Le Blanch, España',
+    'Editorial Tirant Lo Blanch, España',
   ],
   citasRAE: [
     'Diccionario Panhispánico de Dudas',
-    'Nueva Gramática de Lengua Española',
+    'Nueva Gramática de la Lengua Española',
     'Diccionario del Español Jurídico (coeditado con Cumbre Judicial Iberoamericana y Consejo General del Poder Judicial de España)',
   ],
 }
