@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 const experienciaSectorPublico = [
   'Corporación Nacional de Telecomunicaciones (CNT) - Abogado del gobierno ecuatoriano',
-  'Ministerio de Defensa - Casación: Helicópteros Dhrub',
+  'Ministerio de Defensa - Casación: Helicópteros Dhruv',
   'Petroecuador - Contratación pública CNO S.A. (Odebrecht)',
   'Tribunal Supremo Electoral (TSE) - Arbitraje: Consorcio e-Vote',
 ]
