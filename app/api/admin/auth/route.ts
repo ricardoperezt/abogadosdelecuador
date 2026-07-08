@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { validateAdminUser } from '@/lib/admin-auth'
+import { validateAdminUser, createSessionToken, COOKIE_NAME, SESSION_DURATION } from '@/lib/admin-auth'
 
 export async function POST(request: NextRequest) {
   try {
@@ -8,7 +8,18 @@ export async function POST(request: NextRequest) {
     const isValid = validateAdminUser(username, password)
     
     if (isValid) {
-      return NextResponse.json({ success: true })
+      const token = await createSessionToken(username)
+      
+      const response = NextResponse.json({ success: true })
+      response.cookies.set(COOKIE_NAME, token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'strict',
+        path: '/',
+        maxAge: SESSION_DURATION / 1000,
+      })
+      
+      return response
     } else {
       return NextResponse.json({ success: false, error: 'Credenciales incorrectas' }, { status: 401 })
     }

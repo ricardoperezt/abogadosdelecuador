@@ -1,5 +1,5 @@
 import { AbogadoConDetalles } from './types'
-import { supabaseServer } from './supabase-server'
+import { supabase } from './supabase'
 
 export async function getAbogadosConDetalles(): Promise<AbogadoConDetalles[]> {
   console.log("🔍 Obteniendo abogados de Supabase...")
@@ -7,7 +7,7 @@ export async function getAbogadosConDetalles(): Promise<AbogadoConDetalles[]> {
   
   try {
     // Consulta con relaciones - misma que usa el dashboard
-    const { data: abogados, error: abogadosError } = await supabaseServer
+    const { data: abogados, error: abogadosError } = await supabase
       .from('abogados')
       .select(`
         *,
@@ -29,20 +29,12 @@ export async function getAbogadosConDetalles(): Promise<AbogadoConDetalles[]> {
       throw abogadosError
     }
     console.log("📊 Datos recibidos (activos):", abogados?.length || 0, "abogados")
-    console.log("🔍 DEBUG: Datos crudos:", abogados)
 
     // Transformar los datos al formato esperado con relaciones
     const result = (abogados || []).map((abogado: any) => {
-      console.log("🔍 DEBUG: Procesando abogado:", abogado.nombre, abogado.id)
-      
       const especialidades = abogado.abogados_especialidades?.map((ae: any) => ae.especialidades).filter(Boolean) || []
       const subespecialidades = abogado.abogados_subespecialidades?.map((as: any) => as.subespecialidades).filter(Boolean) || []
       const posgrados = abogado.abogados_posgrados?.map((ap: any) => ap.posgrados).filter(Boolean) || []
-      
-      console.log(`  📋 ${abogado.nombre} - Especialidades:`, especialidades.length)
-      console.log(`  📋 ${abogado.nombre} - Subespecialidades:`, subespecialidades.length)
-      console.log(`  📋 ${abogado.nombre} - Posgrados:`, posgrados.length)
-      
       return {
         id: abogado.id,
         nombre: abogado.nombre,
@@ -59,7 +51,6 @@ export async function getAbogadosConDetalles(): Promise<AbogadoConDetalles[]> {
     })
 
     console.log("✅ Datos transformados:", result.length, "abogados")
-    console.log("🔍 DEBUG: Resultado final:", result)
     return result
 
   } catch (error) {
@@ -70,7 +61,7 @@ export async function getAbogadosConDetalles(): Promise<AbogadoConDetalles[]> {
 
 export async function getAbogadosPorEspecialidad(especialidadId: number): Promise<AbogadoConDetalles[]> {
   console.log("📋 TABLA: 'abogados_especialidades' - Buscando abogados por especialidad ID:", especialidadId)
-  const { data, error } = await supabaseServer
+  const { data, error } = await supabase
     .from('abogados_especialidades')
     .select(`
       abogados (*)
@@ -86,7 +77,7 @@ export async function getEspecialidades() {
   console.log("📋 TABLA: 'especialidades' - Buscando todas las especialidades")
   
   try {
-    const { data, error } = await supabaseServer
+    const { data, error } = await supabase
       .from('especialidades')
       .select('*')
       .order('nombre')

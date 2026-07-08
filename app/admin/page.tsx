@@ -2,8 +2,8 @@
 
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { useEffect, useState } from 'react'
-import { usePathname, useRouter } from 'next/navigation'
+import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -13,32 +13,14 @@ export default function AdminPage() {
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
   const router = useRouter()
-  const pathname = usePathname()
-
-  useEffect(() => {
-    checkAuth()
-  }, [])
-
-  const checkAuth = () => {
-    // Verificar si hay sesión guardada en localStorage
-    const savedSession = localStorage.getItem('adminSession')
-    if (savedSession) {
-      setIsLoggedIn(true)
-      router.push('/admin/dashboard')
-    }
-  }
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
     setError('')
 
-    console.log("🔍 Login attempt:", { username, password: "***" })
-
     try {
-      // Validar usuario via API route (server-side)
       const response = await fetch('/api/admin/auth', {
         method: 'POST',
         headers: {
@@ -48,32 +30,18 @@ export default function AdminPage() {
       })
       
       const data = await response.json()
-      console.log("🔍 API response:", data)
       
       if (data.success) {
-        // Guardar sesión en localStorage
-        localStorage.setItem('adminSession', JSON.stringify({ username, timestamp: Date.now() }))
-        console.log("✅ Session saved, redirecting to dashboard")
-        setIsLoggedIn(true)
         router.push('/admin/dashboard')
       } else {
-        console.log("❌ Invalid credentials")
         setError(data.error || 'Credenciales incorrectas')
       }
     } catch (error) {
-      console.error("❌ Login error:", error)
+      console.error('Login error:', error)
       setError('Error al iniciar sesión')
     } finally {
       setLoading(false)
     }
-  }
-
-  if (isLoggedIn) {
-    return (
-      <div className="min-h-screen bg-[#0f1419] flex items-center justify-center">
-        <div className="text-foreground">Redirigiendo al dashboard...</div>
-      </div>
-    )
   }
 
   return (

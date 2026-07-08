@@ -1,36 +1,53 @@
+import { SignJWT, jwtVerify } from 'jose'
+
+const COOKIE_NAME = 'admin_session'
+const SESSION_DURATION = 24 * 60 * 60 * 1000 // 24 horas
+
+function getSecretKey(): Uint8Array {
+  const secret = process.env.ADMIN_JWT_SECRET
+  if (!secret) {
+    throw new Error('ADMIN_JWT_SECRET no está configurada. Revisa .env.local')
+  }
+  return new TextEncoder().encode(secret)
+}
+
 // Autenticación de admin usando variables de entorno
 export function validateAdminUser(username: string, password: string): boolean {
-  console.log("🔍 All env vars:", Object.keys(process.env).filter(k => k.includes('ADMIN')))
-  
-  // Prioridad: usar ADMIN_USERS (server-side) en producción, NEXT_PUBLIC_ADMIN_USERS (client-side) en desarrollo
-  const adminUsers = process.env.ADMIN_USERS || process.env.NEXT_PUBLIC_ADMIN_USERS
+  const adminUsers = process.env.ADMIN_USERS
   
   if (!adminUsers) {
-    console.error("❌ ADMIN_USERS or NEXT_PUBLIC_ADMIN_USERS environment variable not set")
     return false
   }
-  
-  console.log("🔍 Attempting login:", { username, password: "***" })
   
   const users = adminUsers.split(',').map(userEntry => {
     const [user, pass] = userEntry.split(':')
     return { username: user, password: pass }
   })
   
-  console.log("🔍 Parsed users:", users.map(u => ({...u, password: "***"})))
-  
-  const isValid = users.some(user => user.username === username && user.password === password)
-  console.log("🔍 User valid:", isValid)
-  
-  return isValid
+  return users.some(user => user.username === username && user.password === password)
+}
+
+export async function createSessionToken(username: string): Promise<string> {
+  return await new SignJWT({ username })
+    .setProtectedHeader({ alg: 'HS256' })
+    .setIssuedAt()
+    .setExpirationTime('24h')
+    .sign(getSecretKey())
+}
+
+export async function verifySessionToken(token: string): Promise<{ username: string } | null> {
+  try {
+    const { payload } = await jwtVerify(token, getSecretKey())
+    return { username: payload.username as string }
+  } catch {
+    return null
+  }
 }
 
 export function getAdminUsers(): Array<{username: string, password: string}> {
-  // Prioridad: usar ADMIN_USERS (server-side) en producción, NEXT_PUBLIC_ADMIN_USERS (client-side) en desarrollo
-  const adminUsers = process.env.ADMIN_USERS || process.env.NEXT_PUBLIC_ADMIN_USERS
+  const adminUsers = process.env.ADMIN_USERS
   
   if (!adminUsers) {
-    console.error("❌ ADMIN_USERS or NEXT_PUBLIC_ADMIN_USERS environment variable not set")
     return []
   }
   
@@ -39,3 +56,5 @@ export function getAdminUsers(): Array<{username: string, password: string}> {
     return { username: user, password: pass }
   })
 }
+
+export { COOKIE_NAME, SESSION_DURATION }

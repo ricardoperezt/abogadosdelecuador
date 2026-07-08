@@ -46,8 +46,8 @@ export default function AdminDashboard() {
     }
   }
 
-  const handleLogout = () => {
-    localStorage.removeItem('adminSession')
+  const handleLogout = async () => {
+    await fetch('/api/admin/logout', { method: 'POST' })
     router.push('/admin')
   }
 
