@@ -1,4 +1,5 @@
 import { ArrowRight } from 'lucide-react'
+import Image from 'next/image'
 import { Button } from '@/components/ui/button'
 
 interface HeroProps {
@@ -31,9 +32,12 @@ export default function Hero({ onNavigate }: HeroProps) {
           {/* Logo */}
           <div className="flex justify-center mb-8">
             <div className="w-56 h-56 md:w-72 md:h-72 drop-shadow-[0_0_50px_rgba(201,162,39,0.4)]">
-              <img 
-                src="/logo-cicero.png" 
-                alt="Abogados del Ecuador" 
+              <Image
+                src="/logo-cicero.png"
+                alt="Abogados del Ecuador"
+                width={288}
+                height={288}
+                priority
                 className="w-full h-full object-contain"
               />
             </div>

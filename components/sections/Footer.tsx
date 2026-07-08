@@ -1,7 +1,8 @@
 'use client'
 
 import { usePathname } from 'next/navigation'
-import { ArrowUp, Facebook, Instagram, Linkedin, Twitter } from 'lucide-react'
+import Image from 'next/image'
+import { ArrowUp, Facebook, Instagram, Linkedin } from 'lucide-react'
 
 const footerLinks = {
   navegacion: [
@@ -28,10 +29,9 @@ const footerLinks = {
 }
 
 const socialLinks = [
-  { icon: Facebook, href: '#', label: 'Facebook' },
-  { icon: Twitter, href: '#', label: 'Twitter' },
-  { icon: Linkedin, href: '#', label: 'LinkedIn' },
-  { icon: Instagram, href: '#', label: 'Instagram' },
+  { icon: Facebook, href: 'https://www.facebook.com/abogadosdelecuador', label: 'Facebook' },
+  { icon: Linkedin, href: 'https://www.linkedin.com/company/abogadosdelecuador', label: 'LinkedIn' },
+  { icon: Instagram, href: 'https://www.instagram.com/abogadosdelecuador', label: 'Instagram' },
 ]
 
 export default function Footer() {
@@ -72,9 +72,11 @@ export default function Footer() {
           <div className="lg:col-span-2">
             <div className="flex items-center gap-3 mb-6">
               <div className="w-14 h-14">
-                <img 
-                  src="/logo-cicero.png" 
-                  alt="Abogados del Ecuador" 
+                <Image
+                  src="/logo-cicero.png"
+                  alt="Abogados del Ecuador"
+                  width={56}
+                  height={56}
                   className="w-full h-full object-contain"
                 />
               </div>
@@ -92,14 +94,15 @@ export default function Footer() {
               * Este directorio es solo informativo. No garantizamos los servicios 
               de los profesionales listados.
             </p>
-            {/* Redes Sociales - Comentado temporalmente */}
-            {/* <div className="flex gap-3 mt-6">
+            <div className="flex gap-3 mt-6">
               {socialLinks.map((social) => {
                 const Icono = social.icon
                 return (
                   <a
                     key={social.label}
                     href={social.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     aria-label={social.label}
                     className="w-10 h-10 rounded-full bg-[#1a1f2e] border border-[#c9a227]/30 flex items-center justify-center text-[#c9a227] hover:bg-[#c9a227]/10 hover:border-[#c9a227] transition-all duration-200"
                   >
@@ -107,7 +110,7 @@ export default function Footer() {
                   </a>
                 )
               })}
-            </div> */}
+            </div>
           </div>
 
           {/* Navigation */}

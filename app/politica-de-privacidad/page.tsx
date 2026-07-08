@@ -3,8 +3,16 @@ import { ArrowLeft } from 'lucide-react'
 import Footer from '@/components/sections/Footer'
 
 export const metadata = {
-  title: 'Política de Privacidad - Abogados del Ecuador',
+  title: 'Política de Privacidad',
   description: 'Política de privacidad del Directorio de Abogados del Ecuador',
+  alternates: {
+    canonical: '/politica-de-privacidad',
+  },
+  openGraph: {
+    title: 'Política de Privacidad | Abogados del Ecuador',
+    description: 'Política de privacidad del Directorio de Abogados del Ecuador',
+    type: 'article',
+  },
 }
 
 export default function PoliticaDePrivacidad() {

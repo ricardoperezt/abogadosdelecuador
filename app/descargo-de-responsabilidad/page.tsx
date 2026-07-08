@@ -3,8 +3,16 @@ import { ArrowLeft } from 'lucide-react'
 import Footer from '@/components/sections/Footer'
 
 export const metadata = {
-  title: 'Descargo de Responsabilidad - Abogados del Ecuador',
+  title: 'Descargo de Responsabilidad',
   description: 'Descargo de responsabilidad del Directorio de Abogados del Ecuador',
+  alternates: {
+    canonical: '/descargo-de-responsabilidad',
+  },
+  openGraph: {
+    title: 'Descargo de Responsabilidad | Abogados del Ecuador',
+    description: 'Descargo de responsabilidad del Directorio de Abogados del Ecuador',
+    type: 'article',
+  },
 }
 
 export default function DescargoDeResponsabilidad() {

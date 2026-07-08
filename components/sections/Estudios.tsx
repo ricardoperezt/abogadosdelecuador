@@ -1,6 +1,7 @@
 "use client"
 
 import { Card, CardContent } from '@/components/ui/card'
+import Image from 'next/image'
 import { Globe, Mail, MapPin, Phone, Users } from 'lucide-react'
 import { useEffect, useState } from 'react'
 
@@ -67,10 +68,12 @@ export default function Estudios() {
             <Card key={estudio.id} className="bg-[#1a1f2e] border-[#c9a227]/20 hover:border-[#c9a227]/40 transition-all duration-300 overflow-hidden group">
               {/* Image */}
               <div className="relative h-48 overflow-hidden">
-                <img
+                <Image
                   src={estudio.imagen}
                   alt={estudio.nombre}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  className="object-cover transition-transform duration-500 group-hover:scale-105"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#1a1f2e] to-transparent" />
                 <div className="absolute bottom-4 left-6 right-6">

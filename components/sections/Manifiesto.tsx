@@ -1,4 +1,5 @@
 import { Quote, Scale, BookOpen, Users, Lightbulb, ArrowRight } from 'lucide-react'
+import Image from 'next/image'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 
@@ -52,9 +53,11 @@ export default function Manifiesto() {
               </blockquote>
               <div className="flex items-center gap-4">
                 <div className="w-12 h-12">
-                  <img 
-                    src="/logo-cicero.png" 
-                    alt="" 
+                  <Image
+                    src="/logo-cicero.png"
+                    alt=""
+                    width={48}
+                    height={48}
                     className="w-full h-full object-contain"
                   />
                 </div>

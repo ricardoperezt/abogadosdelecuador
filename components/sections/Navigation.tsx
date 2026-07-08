@@ -1,4 +1,5 @@
 import { ChevronDown, ChevronRight, Menu, X } from 'lucide-react'
+import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react'
 
 import { Button } from '@/components/ui/button'
@@ -157,9 +158,12 @@ export default function Navigation({ activeSection, onNavigate, onSubcategoriaCl
             onClick={() => handleNavClick('inicio')}
           >
             <div className="w-14 h-14 md:w-16 md:h-16">
-              <img 
-                src="/logo-cicero.png" 
-                alt="Abogados del Ecuador" 
+              <Image
+                src="/logo-cicero.png"
+                alt="Abogados del Ecuador"
+                width={64}
+                height={64}
+                priority
                 className="w-full h-full object-contain"
               />
             </div>

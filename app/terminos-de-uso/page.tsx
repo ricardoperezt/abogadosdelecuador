@@ -3,8 +3,16 @@ import { ArrowLeft } from 'lucide-react'
 import Footer from '@/components/sections/Footer'
 
 export const metadata = {
-  title: 'Términos de Uso - Abogados del Ecuador',
+  title: 'Términos de Uso',
   description: 'Términos y condiciones de uso del Directorio de Abogados del Ecuador',
+  alternates: {
+    canonical: '/terminos-de-uso',
+  },
+  openGraph: {
+    title: 'Términos de Uso | Abogados del Ecuador',
+    description: 'Términos y condiciones de uso del Directorio de Abogados del Ecuador',
+    type: 'article',
+  },
 }
 
 export default function TerminosDeUso() {

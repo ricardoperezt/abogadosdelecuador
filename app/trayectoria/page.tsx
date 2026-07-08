@@ -3,8 +3,16 @@ import Link from 'next/link'
 import { ArrowLeft, Scale, Globe, GraduationCap, BookOpen, Building2, Award, Briefcase } from 'lucide-react'
 
 export const metadata: Metadata = {
-  title: 'Dr. Efraín Pérez Camacho - Trayectoria Profesional | Abogados del Ecuador',
+  title: 'Dr. Efraín Pérez Camacho - Trayectoria Profesional',
   description: 'Trayectoria profesional del Dr. Efraín Pérez Camacho, abogado ecuatoriano especializado en Derecho Público con amplia experiencia nacional e internacional.',
+  alternates: {
+    canonical: '/trayectoria',
+  },
+  openGraph: {
+    title: 'Dr. Efraín Pérez Camacho - Trayectoria Profesional',
+    description: 'Trayectoria profesional del Dr. Efraín Pérez Camacho, abogado ecuatoriano especializado en Derecho Público.',
+    type: 'profile',
+  },
 }
 
 const experienciaSectorPublico = [
