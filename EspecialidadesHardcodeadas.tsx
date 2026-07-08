@@ -343,7 +343,7 @@ const Especialidades = forwardRef<EspecialidadesRef, EspecialidadesProps>(
                             <CardContent className="p-4">
                               <div className="flex justify-between items-start mb-2">
                                 <div>
-                                  <h5 className="text-white font-semibold text-sm">Abg. {abogado.nombre}</h5>
+                                  <h5 className="text-white font-semibold text-sm"> {abogado.nombre}</h5>
                                   <div className="flex items-center gap-1 text-[#c9a227]/70 text-xs mt-1">
                                     <Building2 className="w-3 h-3" />
                                     <span>{abogado.firma}</span>

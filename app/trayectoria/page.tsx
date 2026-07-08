@@ -9,14 +9,14 @@ export const metadata: Metadata = {
 
 const experienciaSectorPublico = [
   'Corporación Nacional de Telecomunicaciones (CNT) - Abogado del gobierno ecuatoriano',
-  'Ministerio de Defensa - Casación: Helicópteros Dhrub',
+  'Ministerio de Defensa - Casación: Helicópteros Dhruv',
   'Petroecuador - Contratación pública CNO S.A. (Odebrecht)',
   'Tribunal Supremo Electoral (TSE) - Arbitraje: Consorcio e-Vote',
 ]
 
 const experienciaSectorPrivado = [
   'Tributaria: Nicolás Febres-Cordero Ribadeneira vs. Servicio de Rentas Internas (SRI)',
-  'Marcario: Familia - Kimberl Clark',
+  'Marcario: Familia - Kimberl-Clark',
 ]
 
 const consultoriasInternacionales = [
@@ -65,11 +65,11 @@ const produccionIntelectual = {
     'CEP, Ecuador',
     'Editorial Temis, Bogotá, Colombia',
     'Editorial Aranzadi, España',
-    'Editorial Tirant Le Blanch, España',
+    'Editorial Tirant Lo Blanch, España',
   ],
   citasRAE: [
     'Diccionario Panhispánico de Dudas',
-    'Nueva Gramática de Lengua Española',
+    'Nueva Gramática de la Lengua Española',
     'Diccionario del Español Jurídico (coeditado con Cumbre Judicial Iberoamericana y Consejo General del Poder Judicial de España)',
   ],
 }
