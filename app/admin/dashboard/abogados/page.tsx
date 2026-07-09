@@ -29,6 +29,7 @@ interface Abogado {
   ubicacion: string
   telefono: string
   email: string
+  linkedin: string
   especialidades: Array<{ id: string, nombre: string }>
   subespecialidades: Array<{ id: string, nombre: string }>
   posgrados: Array<{ id: string, nombre: string }>
@@ -57,6 +58,7 @@ export default function AbogadosManagement() {
     ubicacion: '',
     telefono: '',
     email: '',
+    linkedin: '',
     especialidades: [] as string[],
     subespecialidades: [] as string[],
     posgrados: [] as string[]
@@ -150,7 +152,8 @@ export default function AbogadosManagement() {
         firma: formData.firma,
         ubicacion: formData.ubicacion,
         telefono: formData.telefono,
-        email: formData.email
+        email: formData.email,
+        linkedin: formData.linkedin || null
       }
 
       let abogadoId: string
@@ -220,6 +223,7 @@ export default function AbogadosManagement() {
       ubicacion: abogado.ubicacion,
       telefono: abogado.telefono,
       email: abogado.email,
+      linkedin: abogado.linkedin || '',
       especialidades: abogado.especialidades.map(e => e.id),
       subespecialidades: abogado.subespecialidades.map(s => s.id),
       posgrados: abogado.posgrados.map(p => p.id)
@@ -381,6 +385,18 @@ export default function AbogadosManagement() {
                     />
                   </div>
                 </div>
+
+                <div>
+                  <Label htmlFor="linkedin" className="text-foreground mb-2 block text-sm font-medium">LinkedIn</Label>
+                  <Input
+                    id="linkedin"
+                    type="url"
+                    value={formData.linkedin}
+                    onChange={(e) => setFormData({ ...formData, linkedin: e.target.value })}
+                    className="bg-[#0f1419] border-[#c9a227]/60 text-white focus:border-[#c9a227] transition-colors h-12"
+                    placeholder="https://linkedin.com/in/usuario"
+                  />
+                </div>
               </div>
 
               {/* Sección: Áreas de Especialización */}
@@ -523,6 +539,16 @@ export default function AbogadosManagement() {
                       <p className="text-white truncate">{abogado.telefono}</p>
                       <p className="text-[#c9a227] truncate">{abogado.email}</p>
                     </div>
+                    
+                    {/* LinkedIn */}
+                    {abogado.linkedin && (
+                      <div>
+                        <p className="text-gray-500 text-xs mb-1">LinkedIn</p>
+                        <a href={abogado.linkedin} target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:text-blue-300 truncate block">
+                          {abogado.linkedin}
+                        </a>
+                      </div>
+                    )}
                     
                     {/* Especialidades */}
                     <div>
