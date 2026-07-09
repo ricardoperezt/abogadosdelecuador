@@ -1,7 +1,7 @@
 'use client'
 
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog'
-import { ArrowLeft, CheckCircle2, Pencil, Plus, Trash2 } from 'lucide-react'
+import { ArrowLeft, CheckCircle2, ImagePlus, Loader2, Pencil, Plus, Trash2 } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
@@ -59,6 +59,7 @@ export default function EstudiosManagement() {
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const [formData, setFormData] = useState<EstudioFormData>(initialFormData)
   const [error, setError] = useState<string | null>(null)
+  const [uploadingField, setUploadingField] = useState<string | null>(null)
   const router = useRouter()
 
   useEffect(() => {
@@ -129,6 +130,36 @@ export default function EstudiosManagement() {
     } catch (error: any) {
       console.error('Error saving estudio jurídico:', error)
       setError(error?.message || 'Error al guardar el estudio jurídico. Por favor, inténtelo de nuevo.')
+    }
+  }
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>, field: 'imagen' | 'logo') => {
+    const file = e.target.files?.[0]
+    if (!file) return
+
+    setUploadingField(field)
+    try {
+      const formData = new FormData()
+      formData.append('file', file)
+      formData.append('folder', field)
+
+      const response = await fetch('/api/admin/upload', {
+        method: 'POST',
+        body: formData
+      })
+
+      const result = await response.json()
+
+      if (!response.ok || !result.success) {
+        throw new Error(result.error || 'Error al subir la imagen')
+      }
+
+      setFormData((prev) => ({ ...prev, [field]: result.url }))
+    } catch (error) {
+      console.error('Error uploading image:', error)
+      setError('Error al subir la imagen. Intente nuevamente.')
+    } finally {
+      setUploadingField(null)
     }
   }
 
@@ -354,16 +385,100 @@ export default function EstudiosManagement() {
                 </div>
               </div>
 
-              <div>
-                <Label htmlFor="imagen" className="text-foreground mb-2 block text-sm font-medium">Imagen</Label>
-                <Input
-                  id="imagen"
-                  value={formData.imagen}
-                  onChange={(e) => setFormData({ ...formData, imagen: e.target.value })}
-                  className="bg-[#0f1419] border-[#c9a227]/60 text-white focus:border-[#c9a227] transition-colors h-12"
-                  placeholder="URL de imagen"
-                  required
-                />
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <Label htmlFor="imagen-upload" className="text-foreground mb-2 block text-sm font-medium">Imagen</Label>
+                  {formData.imagen && (
+                    <div className="mb-2 relative rounded-lg overflow-hidden border border-[#c9a227]/20">
+                      <img
+                        src={formData.imagen}
+                        alt="Preview imagen"
+                        className="w-full h-40 object-cover"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setFormData({ ...formData, imagen: '' })}
+                        className="absolute top-2 right-2 bg-red-500/80 hover:bg-red-500 text-white rounded-full w-7 h-7 flex items-center justify-center text-xs"
+                      >
+                        ✕
+                      </button>
+                    </div>
+                  )}
+                  <div className="flex gap-2">
+                    <label
+                      htmlFor="imagen-upload"
+                      className="flex-1 flex items-center justify-center gap-2 cursor-pointer bg-[#0f1419] border border-[#c9a227]/60 hover:border-[#c9a227] text-white rounded-md h-12 px-4 text-sm transition-colors"
+                    >
+                      {uploadingField === 'imagen' ? (
+                        <><Loader2 className="w-4 h-4 animate-spin" /> Subiendo...</>
+                      ) : (
+                        <><ImagePlus className="w-4 h-4" /> {formData.imagen ? 'Cambiar imagen' : 'Subir imagen'}</>
+                      )}
+                    </label>
+                    <input
+                      id="imagen-upload"
+                      type="file"
+                      accept="image/*"
+                      className="hidden"
+                      onChange={(e) => handleImageUpload(e, 'imagen')}
+                    />
+                  </div>
+                  <Input
+                    id="imagen"
+                    value={formData.imagen}
+                    onChange={(e) => setFormData({ ...formData, imagen: e.target.value })}
+                    className="bg-[#0f1419] border-[#c9a227]/60 text-white focus:border-[#c9a227] transition-colors h-12 mt-2"
+                    placeholder="O pega una URL"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <Label htmlFor="logo-preview" className="text-foreground mb-2 block text-sm font-medium">Logo (imagen)</Label>
+                  {formData.logo && formData.logo.startsWith('http') && (
+                    <div className="mb-2 relative rounded-lg overflow-hidden border border-[#c9a227]/20">
+                      <img
+                        src={formData.logo}
+                        alt="Preview logo"
+                        className="w-full h-40 object-contain bg-[#0f1419]"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setFormData({ ...formData, logo: '' })}
+                        className="absolute top-2 right-2 bg-red-500/80 hover:bg-red-500 text-white rounded-full w-7 h-7 flex items-center justify-center text-xs"
+                      >
+                        ✕
+                      </button>
+                    </div>
+                  )}
+                  <div className="flex gap-2">
+                    <label
+                      htmlFor="logo-upload"
+                      className="flex-1 flex items-center justify-center gap-2 cursor-pointer bg-[#0f1419] border border-[#c9a227]/60 hover:border-[#c9a227] text-white rounded-md h-12 px-4 text-sm transition-colors"
+                    >
+                      {uploadingField === 'logo' ? (
+                        <><Loader2 className="w-4 h-4 animate-spin" /> Subiendo...</>
+                      ) : (
+                        <><ImagePlus className="w-4 h-4" /> {formData.logo && formData.logo.startsWith('http') ? 'Cambiar logo' : 'Subir logo'}</>
+                      )}
+                    </label>
+                    <input
+                      id="logo-upload"
+                      type="file"
+                      accept="image/*"
+                      className="hidden"
+                      onChange={(e) => handleImageUpload(e, 'logo')}
+                    />
+                  </div>
+                  <Input
+                    id="logo"
+                    value={formData.logo}
+                    onChange={(e) => setFormData({ ...formData, logo: e.target.value })}
+                    className="bg-[#0f1419] border-[#c9a227]/60 text-white focus:border-[#c9a227] transition-colors h-12 mt-2"
+                    placeholder="O pega una URL o texto"
+                    required
+                  />
+                </div>
               </div>
 
               <div>

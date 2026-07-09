@@ -15,8 +15,10 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { getEspecialidades } from '@/lib/abogados-optimized'
-import { supabaseServer } from '@/lib/supabase-server'
+import { createClient } from '@/utils/supabase/client'
 import { useRouter } from 'next/navigation'
+
+const supabaseServer = createClient()
 
 interface Abogado {
   id: string

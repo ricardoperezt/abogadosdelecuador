@@ -4,8 +4,10 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { useEffect, useState } from 'react'
 
 import { Button } from '@/components/ui/button'
-import { supabaseServer } from '@/lib/supabase-server'
+import { createClient } from '@/utils/supabase/client'
 import { useRouter } from 'next/navigation'
+
+const supabaseServer = createClient()
 
 export default function AdminDashboard() {
   const [stats, setStats] = useState({

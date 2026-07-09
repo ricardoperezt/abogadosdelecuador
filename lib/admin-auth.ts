@@ -20,11 +20,11 @@ export function validateAdminUser(username: string, password: string): boolean {
   }
   
   const users = adminUsers.split(',').map(userEntry => {
-    const [user, pass] = userEntry.split(':')
-    return { username: user, password: pass }
+    const [user, ...rest] = userEntry.split(':')
+    return { username: user?.trim(), password: rest.join(':').trim() }
   })
   
-  return users.some(user => user.username === username && user.password === password)
+  return users.some(user => user.username === username.trim() && user.password === password)
 }
 
 export async function createSessionToken(username: string): Promise<string> {

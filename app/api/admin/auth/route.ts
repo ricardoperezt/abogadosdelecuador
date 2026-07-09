@@ -5,6 +5,13 @@ export async function POST(request: NextRequest) {
   try {
     const { username, password } = await request.json()
     
+    console.log('Auth attempt:', { 
+      username, 
+      passwordLength: password?.length,
+      ADMIN_USERS_set: !!process.env.ADMIN_USERS,
+      ADMIN_JWT_SECRET_set: !!process.env.ADMIN_JWT_SECRET
+    })
+    
     const isValid = validateAdminUser(username, password)
     
     if (isValid) {
