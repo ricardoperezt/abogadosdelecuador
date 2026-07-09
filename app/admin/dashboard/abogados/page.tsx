@@ -23,6 +23,7 @@ const supabaseServer = createClient()
 interface Abogado {
   id: string
   nombre: string
+  prefijo: string
   edad: number
   grado: string
   firma: string
@@ -52,6 +53,7 @@ export default function AbogadosManagement() {
 
   const [formData, setFormData] = useState({
     nombre: '',
+    prefijo: '',
     edad: '',
     grado: '',
     firma: '',
@@ -128,12 +130,14 @@ export default function AbogadosManagement() {
   const resetForm = () => {
     setFormData({
       nombre: '',
+      prefijo: '',
       edad: '',
       grado: '',
       firma: '',
       ubicacion: '',
       telefono: '',
       email: '',
+      linkedin: '',
       especialidades: [],
       subespecialidades: [],
       posgrados: []
@@ -147,6 +151,7 @@ export default function AbogadosManagement() {
     try {
       const abogadoData = {
         nombre: formData.nombre,
+        prefijo: formData.prefijo && formData.prefijo !== 'none' ? formData.prefijo : null,
         edad: parseInt(formData.edad),
         grado: formData.grado,
         firma: formData.firma,
@@ -217,6 +222,7 @@ export default function AbogadosManagement() {
     setEditingAbogado(abogado)
     setFormData({
       nombre: abogado.nombre,
+      prefijo: abogado.prefijo || '',
       edad: abogado.edad.toString(),
       grado: abogado.grado,
       firma: abogado.firma,
@@ -293,6 +299,26 @@ export default function AbogadosManagement() {
                   Información Personal
                 </h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="sm:col-span-2">
+                    <Label className="text-foreground mb-2 block text-sm font-medium">Prefijo</Label>
+                    <Select
+                      value={formData.prefijo}
+                      onValueChange={(value) => setFormData({ ...formData, prefijo: value })}
+                    >
+                      <SelectTrigger className="bg-[#0f1419] border-[#c9a227]/60 text-white focus:border-[#c9a227] transition-colors h-12">
+                        <SelectValue placeholder="Sin prefijo" />
+                      </SelectTrigger>
+                      <SelectContent className="bg-[#1a1f2e] border-[#c9a227]/30 !text-white">
+                        <SelectItem value="none">Sin prefijo</SelectItem>
+                        <SelectItem value="Abg.">Abg.</SelectItem>
+                        <SelectItem value="Dr.">Dr.</SelectItem>
+                        <SelectItem value="Dra.">Dra.</SelectItem>
+                        <SelectItem value="Lic.">Lic.</SelectItem>
+                        <SelectItem value="Ec.">Ec.</SelectItem>
+                        <SelectItem value="Ing.">Ing.</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
                   <div>
                     <Label htmlFor="nombre" className="text-foreground mb-2 block text-sm font-medium">Nombre</Label>
                     <Input
@@ -508,7 +534,7 @@ export default function AbogadosManagement() {
                 <CardContent className="p-4 flex-1 flex flex-col">
                   {/* Header */}
                   <div className="mb-3">
-                    <h4 className="text-white font-semibold text-sm sm:text-base truncate">{abogado.nombre}</h4>
+                    <h4 className="text-white font-semibold text-sm sm:text-base truncate">{abogado.prefijo ? `${abogado.prefijo} ` : ''}{abogado.nombre}</h4>
                     <p className="text-gray-400 text-xs sm:text-sm mt-1 truncate">
                       {abogado.edad} años
                     </p>

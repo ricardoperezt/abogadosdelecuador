@@ -1,6 +1,7 @@
 export interface Abogado {
   id: string // UUID
   nombre: string
+  prefijo?: string
   edad: number
   grado: string
   firma: string

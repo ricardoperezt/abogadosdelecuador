@@ -41,10 +41,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 
   const especialidades = abogado.abogados_especialidades?.map((ae: any) => ae.especialidades).filter(Boolean) || []
-  const title = `Abg. ${abogado.nombre}`
+  const prefijo = abogado.prefijo || ''
+  const nombreCompleto = prefijo ? `${prefijo} ${abogado.nombre}` : abogado.nombre
+  const title = nombreCompleto
   const description = `${abogado.grado} con firma en ${abogado.firma}. Ubicación: ${abogado.ubicacion}.`
   const keywords = [
-    `Abg. ${abogado.nombre}`,
+    nombreCompleto,
     abogado.nombre,
     `abogado ${abogado.ubicacion}`,
     abogado.firma,
@@ -61,7 +63,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       canonical: `/abogados/${slug}`,
     },
     openGraph: {
-      title: `Abg. ${abogado.nombre} | Abogados del Ecuador`,
+      title: `${nombreCompleto} | Abogados del Ecuador`,
       description,
       type: 'profile',
       locale: 'es_EC',
@@ -104,12 +106,15 @@ export default async function AbogadoPage({ params }: Props) {
   const subespecialidades = abogado.abogados_subespecialidades?.map((as: any) => as.subespecialidades).filter(Boolean) || []
   const posgrados = abogado.abogados_posgrados?.map((ap: any) => ap.posgrados).filter(Boolean) || []
 
+  const prefijo = abogado.prefijo || ''
+  const nombreCompleto = prefijo ? `${prefijo} ${abogado.nombre}` : abogado.nombre
+
   const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://abogadosdelecuador.com'
 
   const personJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Person',
-    name: `Abg. ${abogado.nombre}`,
+    name: nombreCompleto,
     jobTitle: 'Abogado',
     description: `${abogado.grado} con firma en ${abogado.firma}. Ubicación: ${abogado.ubicacion}.`,
     url: `${BASE_URL}/abogados/${slug}`,
@@ -150,7 +155,7 @@ export default async function AbogadoPage({ params }: Props) {
             <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
               <div>
                 <h1 className="text-3xl sm:text-4xl font-serif font-bold text-foreground mb-2">
-                  Abg. {abogado.nombre}
+                  {nombreCompleto}
                 </h1>
                 <div className="flex items-center gap-2 text-[#c9a227]/80 text-sm mb-4">
                   <Building2 className="w-4 h-4" />
