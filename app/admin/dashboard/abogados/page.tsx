@@ -405,12 +405,12 @@ export default function AbogadosManagement() {
                   Áreas de Especialización
                 </h3>
                 
-                <div className="grid grid-cols-1 gap-8">
+                <div className="grid grid-cols-1 gap-6">
                   <div>
-                    <Label className="text-foreground mb-4 block text-sm font-medium">Especialidades</Label>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 h-full bg-[#0f1419] p-4 sm:p-5 rounded-lg border border-[#c9a227]/60 overflow-y-auto">
+                    <Label className="text-foreground mb-3 block text-sm font-medium">Especialidades</Label>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-4 gap-y-3 bg-[#0f1419] p-4 sm:p-5 rounded-lg border border-[#c9a227]/60">
                       {especialidades.map((esp) => (
-                        <div key={esp.id} className="flex items-center space-x-3">
+                        <div key={esp.id} className="flex items-center space-x-3 min-h-[2rem]">
                           <Checkbox
                             id={`esp-${esp.id}`}
                             checked={formData.especialidades.includes(esp.id)}
@@ -429,10 +429,10 @@ export default function AbogadosManagement() {
                   </div>
 
                   <div>
-                    <Label className="text-foreground mb-4 block text-sm font-medium">Subespecialidades</Label>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mt-2 h-full bg-[#0f1419] p-4 sm:p-5 rounded-lg border border-[#c9a227]/60 overflow-y-auto">
+                    <Label className="text-foreground mb-3 block text-sm font-medium">Subespecialidades</Label>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-4 gap-y-3 bg-[#0f1419] p-4 sm:p-5 rounded-lg border border-[#c9a227]/60">
                       {subespecialidades.map((sub) => (
-                        <div key={sub.id} className="flex items-center space-x-3">
+                        <div key={sub.id} className="flex items-center space-x-3 min-h-[2rem]">
                           <Checkbox
                             id={`sub-${sub.id}`}
                             checked={formData.subespecialidades.includes(sub.id)}
@@ -451,10 +451,10 @@ export default function AbogadosManagement() {
                   </div>
 
                   <div>
-                    <Label className="text-foreground mb-4 block text-sm font-medium">Posgrados</Label>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mt-2 h-full bg-[#0f1419] p-4 sm:p-5 rounded-lg border border-[#c9a227]/60 overflow-y-auto">
+                    <Label className="text-foreground mb-3 block text-sm font-medium">Posgrados</Label>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-4 gap-y-3 bg-[#0f1419] p-4 sm:p-5 rounded-lg border border-[#c9a227]/60">
                       {posgrados.map((pos) => (
-                        <div key={pos.id} className="flex items-center space-x-3">
+                        <div key={pos.id} className="flex items-center space-x-3 min-h-[2rem]">
                           <Checkbox
                             id={`pos-${pos.id}`}
                             checked={formData.posgrados.includes(pos.id)}

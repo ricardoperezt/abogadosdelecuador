@@ -58,6 +58,25 @@ export default function HomeClient() {
   )
 
   useEffect(() => {
+    const handleHashScroll = () => {
+      const hash = window.location.hash.replace("#", "")
+      if (hash) {
+        setTimeout(() => {
+          const element = sectionRefs.current[hash]
+          if (element) {
+            const yOffset = -80
+            const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset
+            window.scrollTo({ top: y, behavior: "smooth" })
+          }
+        }, 300)
+      }
+    }
+    handleHashScroll()
+    window.addEventListener("hashchange", handleHashScroll)
+    return () => window.removeEventListener("hashchange", handleHashScroll)
+  }, [])
+
+  useEffect(() => {
     const observers: IntersectionObserver[] = []
     const sections = ["inicio", "manifiesto", "especialidades", "directorio", "estudios", "sobre-nosotros", "fundador", "contacto"]
 

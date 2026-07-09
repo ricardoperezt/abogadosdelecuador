@@ -1,8 +1,10 @@
 import { MetadataRoute } from 'next'
+import { supabase } from '@/lib/supabase'
+import { slugify } from '@/lib/slug'
 
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://abogadosdelecuador.com'
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const lastModified = new Date()
 
   const staticRoutes = [
@@ -38,5 +40,17 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
   ]
 
-  return staticRoutes
+  const { data: abogados } = await supabase
+    .from('abogados')
+    .select('id, nombre')
+    .order('nombre')
+
+  const abogadoRoutes = (abogados || []).map((abogado) => ({
+    url: `${BASE_URL}/abogados/${slugify(abogado.nombre)}`,
+    lastModified,
+    changeFrequency: 'monthly' as const,
+    priority: 0.6,
+  }))
+
+  return [...staticRoutes, ...abogadoRoutes]
 }

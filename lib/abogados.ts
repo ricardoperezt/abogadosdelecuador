@@ -44,6 +44,7 @@ export async function getAbogadosConDetalles(): Promise<AbogadoConDetalles[]> {
         ubicacion: abogado.ubicacion,
         telefono: abogado.telefono,
         email: abogado.email,
+        linkedin: abogado.linkedin || undefined,
         especialidades,
         subespecialidades,
         posgrados

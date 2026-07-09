@@ -3,11 +3,13 @@
 /// <reference path="../../types/react.d.ts" />
 
 import { AbogadoConDetalles, Especialidad } from "@/lib/types"
-import { BookOpen, Building2, Calendar, ChevronRight, GraduationCap, Mail, MapPin, Phone, Search } from "lucide-react"
+import { BookOpen, Building2, Calendar, ChevronRight, GraduationCap, Linkedin, Mail, MapPin, Phone, Search } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { getAbogadosConDetalles, getEspecialidades } from "@/lib/abogados-hybrid"
+import { slugify } from "@/lib/slug"
 import { useEffect, useMemo, useRef, useState } from "react"
+import Link from "next/link"
 
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -15,63 +17,65 @@ import { Input } from "@/components/ui/input"
 
 function AbogadoCard({ abogado }: { abogado: AbogadoConDetalles; key?: string | number }) {
   return (
-    <Card className="bg-[#1a1f2e] border-[#c9a227]/20 hover:border-[#c9a227]/50 transition-all duration-300">
-      <CardContent className="p-5">
-        <div className="mb-4">
-          <h3 className="text-foreground font-semibold text-lg leading-tight mb-1">Abg. {abogado.nombre}</h3>
-          <div className="flex items-center gap-1 text-[#c9a227]/70 text-xs">
-            <Building2 className="w-3 h-3" />
-            <span>{abogado.firma}</span>
+    <Link href={`/abogados/${slugify(abogado.nombre)}`}>
+      <Card className="bg-[#1a1f2e] border-[#c9a227]/20 hover:border-[#c9a227]/50 transition-all duration-300 cursor-pointer h-full">
+        <CardContent className="p-5">
+          <div className="mb-4">
+            <h3 className="text-foreground font-semibold text-lg leading-tight mb-1">Abg. {abogado.nombre}</h3>
+            <div className="flex items-center gap-1 text-[#c9a227]/70 text-xs">
+              <Building2 className="w-3 h-3" />
+              <span>{abogado.firma}</span>
+            </div>
           </div>
-        </div>
-        <div className="flex flex-wrap gap-1 mb-3">
-          {abogado.especialidades.map((esp, idx) => (
-            <Badge key={idx} className="bg-[#c9a227]/20 text-[#c9a227] border-none text-xs">{esp.nombre}</Badge>
-          ))}
-        </div>
-        {abogado.subespecialidades && abogado.subespecialidades.length > 0 && (
           <div className="flex flex-wrap gap-1 mb-3">
-            {abogado.subespecialidades.map((sub, idx) => (
-              <Badge key={idx} className="bg-[#8b7355]/20 text-[#e8d5a3] border-none text-xs">{sub.nombre}</Badge>
+            {abogado.especialidades.map((esp, idx) => (
+              <Badge key={idx} className="bg-[#c9a227]/20 text-[#c9a227] border-none text-xs">{esp.nombre}</Badge>
             ))}
           </div>
-        )}
-        <div className="flex flex-col gap-1.5 mb-4">
-          <div className="flex items-center gap-2 text-gray-400 text-sm">
-            <Calendar className="w-4 h-4 text-[#c9a227]" />
-            <span>{abogado.edad} años</span>
-          </div>
-          <div className="flex items-start gap-2 text-gray-400 text-sm">
-            <GraduationCap className="w-4 h-4 text-[#c9a227] flex-shrink-0 mt-0.5" />
-            <span className="line-clamp-2">{abogado.grado}</span>
-          </div>
-          {abogado.posgrados && abogado.posgrados.length > 0 && (
-            <div className="flex items-start gap-2 text-gray-400 text-sm">
-              <BookOpen className="w-4 h-4 text-[#c9a227] flex-shrink-0 mt-0.5" />
-              <span className="line-clamp-2">{abogado.posgrados.map(p => p.nombre).join(", ")}</span>
+          {abogado.subespecialidades && abogado.subespecialidades.length > 0 && (
+            <div className="flex flex-wrap gap-1 mb-3">
+              {abogado.subespecialidades.map((sub, idx) => (
+                <Badge key={idx} className="bg-[#8b7355]/20 text-[#e8d5a3] border-none text-xs">{sub.nombre}</Badge>
+              ))}
             </div>
           )}
-          <div className="flex items-center gap-2 text-gray-400 text-sm">
-            <MapPin className="w-4 h-4 text-[#c9a227]" />
-            <span>{abogado.ubicacion}</span>
+          <div className="flex flex-col gap-1.5 mb-4">
+            <div className="flex items-center gap-2 text-gray-400 text-sm">
+              <Calendar className="w-4 h-4 text-[#c9a227]" />
+              <span>{abogado.edad} años</span>
+            </div>
+            <div className="flex items-start gap-2 text-gray-400 text-sm">
+              <GraduationCap className="w-4 h-4 text-[#c9a227] flex-shrink-0 mt-0.5" />
+              <span className="line-clamp-2">{abogado.grado}</span>
+            </div>
+            {abogado.posgrados && abogado.posgrados.length > 0 && (
+              <div className="flex items-start gap-2 text-gray-400 text-sm">
+                <BookOpen className="w-4 h-4 text-[#c9a227] flex-shrink-0 mt-0.5" />
+                <span className="line-clamp-2">{abogado.posgrados.map(p => p.nombre).join(", ")}</span>
+              </div>
+            )}
+            <div className="flex items-center gap-2 text-gray-400 text-sm">
+              <MapPin className="w-4 h-4 text-[#c9a227]" />
+              <span>{abogado.ubicacion}</span>
+            </div>
           </div>
-        </div>
-        <div className="flex gap-2 pt-3 border-t border-[#c9a227]/10">
-          <a href={`tel:${abogado.telefono.replace(/\s/g, "")}`} className="flex-1">
-            <Button variant="outline" size="sm" className="w-full border-[#c9a227]/50 text-[#c9a227] hover:bg-[#c9a227] hover:text-[#0f1419] hover:border-[#c9a227] text-xs transition-all duration-200">
-              <Phone className="w-3 h-3 mr-1" />
-              Llamar
-            </Button>
-          </a>
-          <a href={`mailto:${abogado.email}`} className="flex-1">
-            <Button size="sm" className="w-full bg-gradient-to-r from-[#c9a227] to-[#8b7355] text-[#0f1419] font-semibold hover:from-[#e8d5a3] hover:to-[#c9a227] text-xs transition-all duration-200">
-              <Mail className="w-3 h-3 mr-1" />
-              Contactar
-            </Button>
-          </a>
-        </div>
-      </CardContent>
-    </Card>
+          <div className="flex gap-2 pt-3 border-t border-[#c9a227]/10">
+            <div className="flex-1" onClick={(e) => { e.preventDefault(); e.stopPropagation(); window.location.href = `tel:${abogado.telefono.replace(/\s/g, "")}` }}>
+              <Button variant="outline" size="sm" className="w-full border-[#c9a227]/50 text-[#c9a227] hover:bg-[#c9a227] hover:text-[#0f1419] hover:border-[#c9a227] text-xs transition-all duration-200">
+                <Phone className="w-3 h-3 mr-1" />
+                Llamar
+              </Button>
+            </div>
+            <div className="flex-1" onClick={(e) => { e.preventDefault(); e.stopPropagation(); window.location.href = `mailto:${abogado.email}` }}>
+              <Button size="sm" className="w-full bg-gradient-to-r from-[#c9a227] to-[#8b7355] text-[#0f1419] font-semibold hover:from-[#e8d5a3] hover:to-[#c9a227] text-xs transition-all duration-200">
+                <Mail className="w-3 h-3 mr-1" />
+                Contactar
+              </Button>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+    </Link>
   )
 }
 
@@ -110,6 +114,11 @@ export default function DirectorioSupabase() {
   const abogadosOrdenados = useMemo(() => {
     return [...abogados].sort((a, b) => a.nombre.localeCompare(b.nombre))
   }, [abogados])
+
+  const especialidadesConAbogados = useMemo(() => {
+    const nombresUsados = new Set(abogados.flatMap(a => a.especialidades.map(e => e.nombre)))
+    return especialidades.filter(esp => nombresUsados.has(esp.nombre))
+  }, [especialidades, abogados])
 
   const abogadosFiltrados = useMemo(() => {
     const filtrados = abogadosOrdenados.filter((abogado) => {
@@ -187,7 +196,7 @@ export default function DirectorioSupabase() {
             >
               Todas
             </button>
-            {especialidades.map((esp) => (
+            {especialidadesConAbogados.map((esp) => (
               <button
                 key={esp.id}
                 onClick={() => handleCategoriaClick(esp.nombre)}
@@ -284,11 +293,11 @@ export default function DirectorioSupabase() {
         )}
 
         <Dialog open={showMoreDialog} onOpenChange={setShowMoreDialog}>
-          <DialogContent className="bg-[#1a1f2e] border-[#c9a227]/30 max-w-3xl w-[95vw] max-h-[85vh] overflow-y-auto p-6">
-            <DialogHeader className="mb-6">
+          <DialogContent className="bg-[#1a1f2e] border-[#c9a227]/30 w-[95vw] sm:w-[90vw] md:w-[95vw] lg:w-[80vw] xl:w-[85vw] max-w-none sm:max-w-none max-h-[85vh] overflow-y-auto p-4 sm:p-6 rounded-2xl">
+            <DialogHeader className="mb-4 sm:mb-6">
               <DialogTitle className="text-foreground text-2xl font-serif">{moreTitle}</DialogTitle>
             </DialogHeader>
-            <div className="flex flex-col gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
               {moreAbogados.map((abogado) => (
                 <AbogadoCard key={abogado.id} abogado={abogado} />
               ))}

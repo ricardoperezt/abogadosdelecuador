@@ -42,6 +42,7 @@ export interface Posgrado {
 }
 
 export interface AbogadoConDetalles extends Abogado {
+  linkedin?: string
   especialidades: Especialidad[]
   subespecialidades: Subespecialidad[]
   posgrados: Posgrado[]

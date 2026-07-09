@@ -27,6 +27,8 @@ import { AbogadoConDetalles } from '@/lib/types'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
+import { slugify } from '@/lib/slug'
+import Link from 'next/link'
 
 // Mapeo de iconos para especialidades
 const iconMap: Record<string, any> = {
@@ -383,7 +385,7 @@ const Especialidades = forwardRef<EspecialidadesRef, EspecialidadesProps>(
 
           {/* Dialog */}
           <Dialog open={showDialog} onOpenChange={setShowDialog}>
-            <DialogContent className="bg-[#1a1f2e] border-[#c9a227]/30 w-[95vw] sm:w-[90vw] md:w-[80vw] lg:w-[70vw] xl:w-[48vw] max-w-none max-h-[85vh] overflow-y-auto p-4 sm:p-6 rounded-2xl">
+            <DialogContent className="bg-[#1a1f2e] border-[#c9a227]/30 w-[95vw] sm:w-[90vw] md:w-[95vw] lg:w-[80vw] xl:w-[85vw] max-w-none sm:max-w-none max-h-[85vh] overflow-y-auto p-4 sm:p-6 rounded-2xl">
               <DialogHeader className="mb-4 sm:mb-6">
                 <div className="flex items-center gap-3 sm:gap-4">
                   <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-[#c9a227]/10 flex items-center justify-center">
@@ -407,7 +409,7 @@ const Especialidades = forwardRef<EspecialidadesRef, EspecialidadesProps>(
                 </div>
               </DialogHeader>
 
-              <div className="mt-6">
+              <div className="mt-3">
                 <h4 className="text-[#c9a227] font-semibold mb-4 text-sm uppercase tracking-wider">Subcategorías</h4>
                 <div className="flex flex-wrap gap-2 sm:gap-3 mb-6">
                   <button
@@ -440,19 +442,20 @@ const Especialidades = forwardRef<EspecialidadesRef, EspecialidadesProps>(
                 </div>
               </div>
 
-              <div className="mt-6">
+              <div className="mt-3">
                 <h4 className="text-[#c9a227] font-semibold mb-4 text-sm uppercase tracking-wider">
                   Profesionales<span className="text-gray-500 normal-case ml-2">({filteredAbogados.length} encontrados)</span>
                 </h4>
-                <div className="grid grid-cols-1 gap-4 sm:gap-6 max-h-96 overflow-y-auto px-1 scrollbar-hide">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 max-h-96 overflow-y-auto px-1 scrollbar-hide">
                   {filteredAbogados.length > 0 ? (
                     filteredAbogados.map((abogado) => (
-                      <Card key={`${abogado.nombre}-${abogado.email}`} className="bg-[#0f1419] border border-[#c9a227]/30 hover:border-[#c9a227]/60 transition-all duration-200 py-0 shadow-md">
+                      <Link key={`${abogado.nombre}-${abogado.email}`} href={`/abogados/${slugify(abogado.nombre)}`}>
+                      <Card className="bg-[#0f1419] border border-[#c9a227]/30 hover:border-[#c9a227]/60 transition-all duration-200 py-0 shadow-md cursor-pointer h-full">
                       <CardContent className="p-3 sm:p-5">
                         {/* Header */}
                         <div className="flex justify-between items-start mb-3">
                           <div className="flex-1">
-                            <h5 className="text-white font-semibold text-sm sm:text-base mb-1 leading-tight"> {abogado.nombre}</h5>
+                            <h5 className="text-white font-semibold text-sm sm:text-base mb-1 leading-tight"> Abg. {abogado.nombre}</h5>
                             <div className="flex items-center gap-1 text-[#c9a227]/70 text-xs">
                               <Building2 className="w-3 h-3" />
                               <span className="truncate">{abogado.firma}</span>
@@ -507,23 +510,24 @@ const Especialidades = forwardRef<EspecialidadesRef, EspecialidadesProps>(
 
                         {/* Actions */}
                         <div className="flex flex-col sm:flex-row gap-2 pt-3 border-t border-[#c9a227]/10">
-                          <a href={`tel:${abogado.telefono.replace(/\s/g, '')}`} className="flex-1">
+                          <div className="flex-1" onClick={(e) => { e.preventDefault(); e.stopPropagation(); window.location.href = `tel:${abogado.telefono.replace(/\s/g, '')}` }}>
                             <Button variant="outline" size="sm" className="w-full border-[#c9a227]/50 text-[#c9a227] hover:bg-[#c9a227]/10 text-xs h-8">
                               <Phone className="w-3 h-3 mr-1" />
                               <span className="hidden sm:inline">Llamar</span>
                               <span className="sm:hidden">Teléfono</span>
                             </Button>
-                          </a>
-                          <a href={`mailto:${abogado.email}`} className="flex-1">
+                          </div>
+                          <div className="flex-1" onClick={(e) => { e.preventDefault(); e.stopPropagation(); window.location.href = `mailto:${abogado.email}` }}>
                             <Button size="sm" className="w-full bg-gradient-to-r from-[#c9a227] to-[#8b7355] text-[#0f1419] font-semibold hover:opacity-90 text-xs h-8">
                               <Mail className="w-3 h-3 mr-1" />
                               <span className="hidden sm:inline">Contactar</span>
                               <span className="sm:hidden">Email</span>
                             </Button>
-                          </a>
+                          </div>
                         </div>
                       </CardContent>
                     </Card>
+                    </Link>
                     ))
                 ) : (
                   <div className="col-span-1 text-center py-8 text-gray-400">

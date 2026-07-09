@@ -26,6 +26,7 @@ export async function getAbogadosConDetalles(): Promise<AbogadoConDetalles[]> {
         ubicacion,
         telefono,
         email,
+        linkedin,
         abogados_especialidades (
           especialidades (id, nombre)
         ),
@@ -51,6 +52,7 @@ export async function getAbogadosConDetalles(): Promise<AbogadoConDetalles[]> {
       ubicacion: abogado.ubicacion,
       telefono: abogado.telefono,
       email: abogado.email,
+      linkedin: abogado.linkedin || undefined,
       especialidades: abogado.abogados_especialidades?.map((ae: any) => ae.especialidades).filter(Boolean) || [],
       subespecialidades: abogado.abogados_subespecialidades?.map((as: any) => as.subespecialidades).filter(Boolean) || [],
       posgrados: abogado.abogados_posgrados?.map((ap: any) => ap.posgrados).filter(Boolean) || []
